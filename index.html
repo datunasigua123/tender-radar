@@ -5,37 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ტენდერ რადარი</title>
 <meta name="description" content="სახელმწიფო ტენდერები მშენებლობასა და რემონტზე: სად იქნება ნაკლები კონკურენტი და რა ფასად იგებენ.">
-<meta name="theme-color" content="#16202B">
+<meta name="theme-color" content="#F5F3ED">
 <script>try{if(localStorage.getItem("radar-seen-v1"))document.documentElement.dataset.seen=1}catch(e){}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='10' fill='%231B43B8'/%3E%3Ccircle cx='18' cy='18' r='9' fill='none' stroke='%23fff' stroke-width='2.5'/%3E%3Ccircle cx='26' cy='11' r='3.5' fill='%235BE39B'/%3E%3C/svg%3E">
 <link rel="preload" href="data.json" as="fetch" crossorigin>
 <style>
 /* layout: mobile first. one sentence of context, one number, work-type chips, then the cards; explanations live in "how it works" below the list (side column on wide screens) */
 :root{
-  --hero1:#EAEFFB; --hero2:#F3F1E8; --ring:rgba(23,59,158,.06);
-  --paper:#F5F2EA; --sheet:#FFFFFF; --ink:#16202B; --muted:#38434F; --line:#D6D0C2;
-  --accent:#173B9E; --onaccent:#FFFFFF; --b1:#2049BC; --b2:#173B9E; --accent-soft:#EAEFFB; --good:#0B5030; --warn:#684105; --bad:#7B2519;
-  --goodbg:#DDF0E4; --warnbg:#FBEFD5; --lowbg:#F8E4E0; --nabg:#E9ECEF; --skel:#E6E3DA;
-  --gs-hi:#2E9E62; --gs-mid:#D9962B; --gs-lo:#C8503F; --gs-na:#7A8591;
-  --r:14px; --r2:10px;
-  --sh1:0 1px 2px rgba(22,32,43,.08),0 3px 10px rgba(22,32,43,.06); --sh2:0 8px 24px rgba(22,32,43,.22);
-  --body:"Noto Sans Georgian", "Segoe UI", "BPG Arial", "Sylfaen", system-ui, sans-serif;
+  --bg:#F5F3ED; --surface:#FFFFFF; --surface-secondary:#EEECE4; --surface-hover:#E8E7DE; --surface-pressed:#E1DFD5;
+  --text-primary:#172820; --text-secondary:#39483F; --text-muted:#445048; --text-inverse:#FFFFFF;
+  --brand:#166541; --brand-hover:#105638; --brand-pressed:#0B432C; --brand-soft:#E4F1E9; --brand-border:#8AAE98; --brand-text:#115034;
+  --border:#B8BDB3; --border-strong:#7F8A80; --border-subtle:#DADDD5;
+  --success:#135A3A; --success-soft:#E4F1E9; --warning:#724700; --warning-soft:#FFF0C9; --danger:#902727; --danger-soft:#FBE8E6; --unknown:#454E57; --unknown-soft:#E9ECEF;
+  --focus:#8A5B00;
+  --shadow-card:0 2px 8px rgba(23,40,32,.06),0 1px 2px rgba(23,40,32,.04); --shadow-hover:0 5px 16px rgba(23,40,32,.09); --shadow-pop:0 8px 24px rgba(23,40,32,.12);
   color-scheme: light;
+  /* legacy names used by components until they are rebuilt */
+  --paper:var(--bg); --sheet:var(--surface); --ink:var(--text-primary); --muted:var(--text-muted); --line:var(--border);
+  --accent:var(--brand-text); --onaccent:var(--text-inverse); --b1:var(--brand); --b2:var(--brand-hover); --accent-soft:var(--brand-soft);
+  --good:var(--success); --warn:var(--warning); --bad:var(--danger); --goodbg:var(--success-soft); --warnbg:var(--warning-soft); --lowbg:var(--danger-soft); --nabg:var(--unknown-soft); --skel:var(--surface-secondary);
+  --gs-hi:var(--success); --gs-mid:var(--warning); --gs-lo:var(--danger); --gs-na:var(--unknown);
+  --hero1:var(--surface-secondary); --hero2:var(--surface); --ring:rgba(23,40,32,.06);
+  --r:14px; --r2:10px; --sh1:var(--shadow-card); --sh2:var(--shadow-hover);
+  --body:"FiraGO", "Noto Sans Georgian", "Segoe UI", "BPG Arial", "Sylfaen", Arial, sans-serif;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --hero1:#16202F; --hero2:#12171D; --ring:rgba(157,179,255,.07);
-  --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#C2CBD5; --line:#34404C;
-  --accent:#9DB3FF; --onaccent:#0D1420; --b1:#B5C7FF; --b2:#88A3FA; --accent-soft:#1D2840; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
-  --goodbg:#16302A; --warnbg:#33291A; --lowbg:#3A2420; --nabg:#252E38; --skel:#2A333D;
-  --gs-hi:#3FB878; --gs-mid:#D9A03A; --gs-lo:#D8695A; --gs-na:#7F8A96;
-  --sh1:0 1px 2px rgba(0,0,0,.4); --sh2:0 6px 18px rgba(0,0,0,.5); color-scheme: dark; } }
+  --bg:#111A16; --surface:#1B2821; --surface-secondary:#26352C; --surface-hover:#304237; --surface-pressed:#394B3F;
+  --text-primary:#F2F4ED; --text-secondary:#DBE2DB; --text-muted:#B6C3B8; --text-inverse:#172820;
+  --brand:#76C69A; --brand-hover:#91D5AC; --brand-pressed:#7ABE98; --brand-soft:#243F30; --brand-border:#527D62; --brand-text:#C5E9D3;
+  --border:#526057; --border-strong:#758579; --border-subtle:#39473E;
+  --success:#A8E0BD; --success-soft:#234632; --warning:#FFD47A; --warning-soft:#49391D; --danger:#FFA6A2; --danger-soft:#482725; --unknown:#C8D1D6; --unknown-soft:#343E43;
+  --focus:#FFD47A;
+  --shadow-card:0 2px 8px rgba(0,0,0,.18); --shadow-hover:0 5px 16px rgba(0,0,0,.26); --shadow-pop:0 8px 24px rgba(0,0,0,.35);
+  color-scheme: dark;
+  --ring:rgba(242,244,237,.06); } }
 :root[data-theme="dark"]{
-  --hero1:#16202F; --hero2:#12171D; --ring:rgba(157,179,255,.07);
-  --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#C2CBD5; --line:#34404C;
-  --accent:#9DB3FF; --onaccent:#0D1420; --b1:#B5C7FF; --b2:#88A3FA; --accent-soft:#1D2840; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
-  --goodbg:#16302A; --warnbg:#33291A; --lowbg:#3A2420; --nabg:#252E38; --skel:#2A333D;
-  --gs-hi:#3FB878; --gs-mid:#D9A03A; --gs-lo:#D8695A; --gs-na:#7F8A96;
-  --sh1:0 1px 2px rgba(0,0,0,.4); --sh2:0 6px 18px rgba(0,0,0,.5); color-scheme: dark; }
+  --bg:#111A16; --surface:#1B2821; --surface-secondary:#26352C; --surface-hover:#304237; --surface-pressed:#394B3F;
+  --text-primary:#F2F4ED; --text-secondary:#DBE2DB; --text-muted:#B6C3B8; --text-inverse:#172820;
+  --brand:#76C69A; --brand-hover:#91D5AC; --brand-pressed:#7ABE98; --brand-soft:#243F30; --brand-border:#527D62; --brand-text:#C5E9D3;
+  --border:#526057; --border-strong:#758579; --border-subtle:#39473E;
+  --success:#A8E0BD; --success-soft:#234632; --warning:#FFD47A; --warning-soft:#49391D; --danger:#FFA6A2; --danger-soft:#482725; --unknown:#C8D1D6; --unknown-soft:#343E43;
+  --focus:#FFD47A;
+  --shadow-card:0 2px 8px rgba(0,0,0,.18); --shadow-hover:0 5px 16px rgba(0,0,0,.26); --shadow-pop:0 8px 24px rgba(0,0,0,.35);
+  color-scheme: dark;
+  --ring:rgba(242,244,237,.06); }
 *{box-sizing:border-box}
 [hidden]{display:none !important}
 html,body{margin:0}
