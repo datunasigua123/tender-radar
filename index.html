@@ -60,26 +60,30 @@ body{background:var(--bg);color:var(--text-primary);font-family:var(--body);font
 .wrap{max-width:1120px;margin:0 auto;padding:var(--s3) var(--s4) var(--s10);display:grid;gap:var(--s4)}
 a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-header.hero{position:relative;overflow:hidden;display:grid;gap:6px;padding:14px 16px;border-radius:20px;background:linear-gradient(160deg,var(--hero1),var(--hero2) 70%);box-shadow:var(--sh1)}
-header.hero::before{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 22px,var(--ring) 22px 24px);pointer-events:none}
-header.hero>*{position:relative}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:40px;height:40px;flex:none;filter:drop-shadow(0 2px 4px rgba(27,67,184,.3))}
 h1{font-size:var(--fs-hero);line-height:var(--lh-heading);margin:0;font-weight:700}
 h2,h3{line-height:var(--lh-heading);margin:0}
 .mono,.money .v,.good b{font-variant-numeric:tabular-nums}
-.lede{margin:0;font-size:var(--fs-hero-desc);line-height:var(--lh-body);font-weight:600}
-.good{margin:0;display:flex;align-items:center;gap:8px;font-size:16px;line-height:1.3;color:var(--ink)}
-.good b{color:var(--good);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;min-width:2ch}
-.d{width:14px;height:14px;border-radius:50%;background:var(--gs-hi);flex:none;display:inline-block}
-.stamp{font-size:16px;color:var(--muted);min-height:26px}
-.stamp b{color:var(--ink)}
+/* header + hero */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);min-height:44px}
+.brand{display:flex;align-items:center;gap:var(--s3)}
+.logo{width:32px;height:32px;flex:none}
+.brandname{font-size:var(--fs-title);font-weight:700;color:var(--text-primary)}
+.hero{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px var(--s4);display:grid;gap:var(--s2);justify-items:start;margin-bottom:0}
+.eyebrow{margin:0;font-size:16px;font-weight:700;letter-spacing:.12em;color:var(--brand-text)}
+.lede{margin:0;font-size:var(--fs-hero-desc);line-height:var(--lh-body);color:var(--text-secondary)}
+.good{margin:0;color:var(--text-primary);font-weight:500;padding-left:var(--s3);border-left:4px solid var(--success)}
+.good b{color:var(--success);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;min-width:2ch;text-align:center}
+.tglink{margin-left:calc(var(--s3) * -1)}
+@media (max-width:599px){ .eyebrow{display:none} .status [data-act="today"]{display:none} }
+.stamp{font-size:16px;color:var(--text-secondary);min-height:26px}
+.stamp b{color:var(--text-primary)}
+.d{width:14px;height:14px;border-radius:50%;background:var(--success);flex:none;display:inline-block}
 .stale{background:var(--warnbg);color:var(--ink);border-radius:var(--r2);box-shadow:inset 5px 0 0 var(--gs-mid);padding:10px 14px 10px 18px;font-size:16px}
-.first{background:var(--sheet);border-radius:var(--r);box-shadow:var(--sh1);padding:10px 12px 2px;display:grid;gap:0}
+.first{background:var(--brand-soft);border:1px solid var(--brand-border);border-radius:12px;padding:var(--s3) var(--s3) var(--s1);display:grid;gap:0}
 html[data-seen] .first{display:none}
 .f3{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
 .f3 li{display:grid;gap:4px;justify-items:center;font-size:16px;line-height:1.3;font-weight:700}
-.f3 b{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--sheet);display:grid;place-items:center;font-size:16px}
+.f3 b{width:26px;height:26px;border-radius:50%;background:var(--brand);color:var(--text-inverse);display:grid;place-items:center;font-size:16px}
 .first .btn-tertiary{justify-self:center}
 .filters{display:grid;gap:8px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -104,7 +108,7 @@ main{display:grid;gap:14px}
 .note{font-size:16px;line-height:1.3;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
 /* tender card */
 .list{display:grid;gap:var(--s4)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-card);padding:var(--s4);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--s3);min-width:0;line-height:var(--lh-body);max-width:720px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-card);padding:var(--s4);display:grid;grid-template-columns:minmax(0,1fr) auto;grid-auto-flow:row dense;gap:var(--s3);min-width:0;line-height:var(--lh-body);max-width:720px}
 .card>*{grid-column:1/-1;min-width:0}
 .card.pinned{outline:3px solid var(--brand);outline-offset:2px}
 .badges{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
@@ -127,6 +131,7 @@ main{display:grid;gap:14px}
 .org,.deadline{color:var(--text-secondary);line-height:var(--lh-meta);margin:0}
 .org{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .more{grid-column:1;justify-self:start;margin-left:calc(var(--s3) * -1)}
+@media (max-width:400px){ .card .btn-primary{padding-inline:10px;gap:6px} }
 .card .sharebtn{grid-column:2;justify-self:end}
 .more .ic{transition:transform .12s ease}
 .more[aria-expanded="true"] .ic{transform:rotate(180deg)}
@@ -136,8 +141,7 @@ main{display:grid;gap:14px}
 @media (min-width:600px){
   .card{padding:var(--s5);gap:14px;border-radius:var(--r-card)}
   .card .go{grid-column:1}
-  .card .sharebtn{grid-row:auto}
-  .card .more{grid-column:1/-1;grid-row:auto}
+  .card .more{grid-column:1/-1}
 }
 @media (hover:hover){ .card:hover{box-shadow:var(--shadow-hover)} }
 .note{font-size:16px;line-height:1.3;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
@@ -200,35 +204,36 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 .filters{order:1} main{order:2} aside{order:3}
 @media (min-width:1000px){
   :root{--fs-hero:30px;--fs-price:29px}
+  .topbar{min-height:72px} .logo{width:44px;height:44px}
+  .hero{gap:var(--s3)}
+  .hero{padding:28px var(--s8);border-radius:var(--r-hero);margin-bottom:0}
   .wrap{padding-top:var(--s6);gap:var(--s6)}
-  header.hero{padding:28px 32px;border-radius:28px;gap:10px}
-  header.hero::before{right:-40px;top:-90px;width:380px;height:380px}
-  .logo{width:48px;height:48px} .lede{max-width:640px}
   .layout{grid-template-columns:300px minmax(0,720px);justify-content:center;gap:32px;align-items:start}
   .side{display:grid;gap:16px;align-content:start;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;grid-column:1;grid-row:1;padding:2px;scrollbar-width:thin}
   .side>*{order:0} main{grid-column:2;grid-row:1}
   .chips.strip{flex-wrap:wrap;overflow:visible;margin:0;padding:0;-webkit-mask-image:none;mask-image:none}
   .fbody{grid-template-columns:1fr}
   .money .v{font-size:28px}
-  .first{max-width:1052px;margin:0 auto;width:100%}
 }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol><symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></symbol><symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol><symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></symbol><symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol><symbol id="i-tg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 3.5L2.5 11l6 2.2L10.5 20l3-4.2 4.5 3.5z"/><path d="M8.5 13.2l9-6.7"/></symbol></svg>
 <div class="wrap">
-  <header class="hero">
-    <div class="brand"><svg class="logo" viewBox="0 0 36 36" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2350C8"/><stop offset="1" stop-color="#173BA6"/></linearGradient></defs><rect width="36" height="36" rx="10" fill="url(#lg)"/><circle cx="18" cy="18" r="11" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle cx="18" cy="18" r="5.5" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2"/><path d="M18 18 L26 11" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="26.5" cy="10.5" r="3.2" fill="#5BE39B"/></svg><h1>ტენდერ რადარი</h1></div>
-    <p class="lede">ყოველდღე ვპოულობთ სახელმწიფო ტენდერებს, სადაც ნაკლები კონკურენტია.</p>
-    <p class="good" id="goodLine"><i class="d"></i><span>დღეს <b id="goodN">…</b> კარგი შანსის ტენდერი</span></p>
-    <div class="stamp" id="stamp" role="status"><span id="upd">მონაცემები იტვირთება…</span> · <a href="https://tenders.procurement.gov.ge/public/?lang=ge" title="procurement.gov.ge">წყარო</a></div>
-    <div class="stale" id="stale" hidden></div>
+  <header class="topbar">
+    <div class="brand"><svg class="logo" viewBox="0 0 36 36" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2350C8"/><stop offset="1" stop-color="#173BA6"/></linearGradient></defs><rect width="36" height="36" rx="10" fill="url(#lg)"/><circle cx="18" cy="18" r="11" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle cx="18" cy="18" r="5.5" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2"/><path d="M18 18 L26 11" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="26.5" cy="10.5" r="3.2" fill="#5BE39B"/></svg><span class="brandname">ტენდერ რადარი</span></div>
   </header>
 
-  <section class="first" id="first" aria-label="როგორ მუშაობს">
-    <ol class="f3"><li><b>1</b>აირჩიე სამუშაო</li><li><b>2</b>ნახე მწვანე ბარათი</li><li><b>3</b>გახსენი საიტზე</li></ol>
-    <button class="btn-tertiary" id="firstClose"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>გასაგებია, აღარ აჩვენო</button>
+  <section class="hero" aria-labelledby="h1">
+    <p class="eyebrow">TENDER RADAR</p>
+    <h1 id="h1">იპოვე შენი შემდეგი სამშენებლო ტენდერი</h1>
+    <p class="good" id="goodLine">დღეს <b id="goodN">…</b> კარგი შანსის ტენდერი</p>
+    <p class="lede">ყოველდღიურად განახლებული სამშენებლო ტენდერები საქართველოსთვის.</p>
+    <a class="btn-tertiary tglink" id="heroTg" href="https://t.me/tender_radar_ge" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-tg"/></svg><span>გამოგვყევი Telegram-ზე</span></a>
+    <div class="stamp" id="stamp" role="status"><span id="upd">მონაცემები იტვირთება…</span> · <a href="https://tenders.procurement.gov.ge/public/?lang=ge" title="procurement.gov.ge">წყარო</a></div>
+    <div class="stale" id="stale" hidden></div>
   </section>
+
 
   <div class="layout">
     <div class="side">
@@ -306,7 +311,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
         <div>
           <div class="tg"><div class="bubble" id="tgmsg"></div></div>
           <p id="tgSoon">Telegram-ის არხი ჯერ მზადდება. როცა გაეშვება, ბმული აქ გამოჩნდება.</p>
-          <a class="btn" id="tgLink" hidden target="_blank" rel="noopener">გამოიწერე Telegram არხი (უფასოა)</a>
+          <a class="btn btn-secondary" id="tgLink" hidden target="_blank" rel="noopener">გამოიწერე Telegram არხი (უფასოა)</a>
         </div>
       </details>
     </aside>
@@ -347,6 +352,11 @@ const st = { cat:'all', band:'all', q:'', sort:'radar', onlyHi:false, pin:decode
 try { const s = JSON.parse(localStorage.getItem('radar-filters-v3')||'null'); if (s) { st.cat=s.cat in SHORT?s.cat:'all'; st.band=bands.some(b=>b[0]===s.band)?s.band:'all'; st.sort=s.sort||'radar'; st.onlyHi=!!s.onlyHi; } } catch(e) {}
 const save = () => { try { localStorage.setItem('radar-filters-v3', JSON.stringify({cat:st.cat,band:st.band,sort:st.sort,onlyHi:st.onlyHi})); } catch(e) {} };
 const $ = id => document.getElementById(id);
+// first-visit steps: built here so nothing shifts on first paint; they sit under the first card and never push its price off the first screen
+const FIRST = document.documentElement.dataset.seen ? null : (() => { const e = document.createElement('section'); e.className = 'first'; e.setAttribute('aria-label', 'როგორ მუშაობს');
+  e.innerHTML = `<ol class="f3"><li><b>1</b>აირჩიე სამუშაო</li><li><b>2</b>ნახე მწვანე ბარათი</li><li><b>3</b>გახსენი საიტზე</li></ol><button class="btn-tertiary" id="firstClose"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>გასაგებია, აღარ აჩვენო</span></button>`;
+  e.querySelector('#firstClose').onclick = () => { document.documentElement.dataset.seen = 1; try { localStorage.setItem('radar-seen-v1','1'); } catch(_) {} e.remove(); };
+  return e; })();
 
 // numbers keep their spaces together on a narrow screen
 const num = n => Math.round(n).toLocaleString('en-US').replace(/,/g,' ');
@@ -441,8 +451,8 @@ function card(t, pinned){
     <p class="org" title="${esc(org)}">შემსყიდველი: ${esc(orgShort(org))}</p>
     <p class="deadline">${dl}</p>
     <a class="btn btn-primary go" data-open="${esc(t.reg)}" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg><span>ოფიციალურ საიტზე გახსნა</span></a>
-    <button class="btn-tertiary more" data-more aria-expanded="false" aria-controls="p-${esc(t.reg)}"><span>დაწვრილებით</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
     <button class="btn btn-secondary sharebtn" data-share="${esc(t.reg)}" aria-label="გაზიარება: ${esc(t.reg)}"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg><span>გაზიარება</span></button>
+    <button class="btn-tertiary more" data-more aria-expanded="false" aria-controls="p-${esc(t.reg)}"><span>დაწვრილებით</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
     <div class="pnl" id="p-${esc(t.reg)}" hidden></div>`;
   return el;
 }
@@ -455,7 +465,6 @@ function chips(){
   $('q').oninput=e=>{ st.q=e.target.value.trim().toLowerCase(); shown=PAGE; render(); };
   const so=$('sort'); so.value=st.sort; so.onchange=e=>{ st.sort=e.target.value; shown=PAGE; save(); render(); };
   $('onlyHi').onclick=()=>{ st.onlyHi=!st.onlyHi; shown=PAGE; save(); render(); };
-  $('firstClose').onclick=()=>{ document.documentElement.dataset.seen=1; try{ localStorage.setItem('radar-seen-v1','1'); }catch(e){} };
   $('moreBtn').onclick=()=>{ const from=shown; shown+=PAGE; render(false,true); const c=$('list').children[from]; if(c){ const a=c.querySelector('a,button'); a&&a.focus({preventScroll:true}); } };
   $('list').addEventListener('click', onListClick);
   $('count').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return;
@@ -522,6 +531,7 @@ function render(progressive, quiet){
   // first paint: 2 cards now, the rest added one by one as the reader scrolls toward them, so a slow phone never freezes
   const items = L.slice(0,shown), lazy = progressive && 'IntersectionObserver' in window, now = lazy ? 2 : items.length;
   items.slice(0,now).forEach(t=>list.appendChild(card(t)));
+  if (FIRST && FIRST.isConnected === false && !document.documentElement.dataset.seen && list.children.length) list.insertBefore(FIRST, list.children[1] || null);
   let i = now;
   if (lazy && i<items.length) {
     const io = new IntersectionObserver(es=>es.forEach(e=>{ if (!e.isIntersecting) return; io.unobserve(e.target);
