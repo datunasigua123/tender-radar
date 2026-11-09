@@ -209,18 +209,13 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 .layout{display:grid;gap:var(--s4)}
 .side{display:contents}
 .filters{order:1} main{order:2} aside{order:3}
-@media (min-width:1000px){
+@media (min-width:900px){
   :root{--fs-hero:30px;--fs-price:29px}
+  .wrap{max-width:752px;padding-top:var(--s6);gap:var(--s6)}
   .topbar{min-height:72px} .logo{width:44px;height:44px}
-  .hero{gap:var(--s3)}
-  .hero{padding:28px var(--s8);border-radius:var(--r-hero);margin-bottom:0}
-  .wrap{padding-top:var(--s6);gap:var(--s6)}
-  .layout{grid-template-columns:260px minmax(0,720px);justify-content:center;gap:var(--s8);align-items:start}
-  .side{display:grid;gap:16px;align-content:start;position:sticky;top:var(--s6);max-height:calc(100vh - 48px);overflow:auto;grid-column:1;grid-row:1;padding:2px;scrollbar-width:thin}
-  .side{grid-template-columns:minmax(0,1fr)} .side>*{order:0;min-width:0} main{grid-column:2;grid-row:1}
-  .chips.strip{flex-wrap:wrap;overflow:visible;margin:0;padding:0;-webkit-mask-image:none;mask-image:none}
-  .fbody{grid-template-columns:1fr}
-  .money .v{font-size:28px}
+  .hero{padding:28px var(--s8);border-radius:var(--r-hero);gap:var(--s3)}
+  .chips.strip{margin:0;padding-left:0;scrollbar-width:thin}
+  .fbody{grid-template-columns:repeat(3,minmax(0,1fr));align-items:end}
 }
 </style>
 </head>
@@ -575,7 +570,7 @@ let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add(
 
 const setMore = o => { $('moreFBtn').setAttribute('aria-expanded', o); $('moreBody').hidden = !o; };
 $('moreFBtn').onclick = () => setMore($('moreFBtn').getAttribute('aria-expanded') !== 'true');
-if (matchMedia('(min-width:1000px)').matches) { document.querySelectorAll('[data-wide-open]').forEach(d=>d.open=true); setMore(true); }
+/* filters stay collapsed on every screen size */
 document.querySelector('a[href="#info"]')?.addEventListener('click', ()=>{ const d=document.querySelector('#info details'); if(d) d.open=true; });
 
 function reveal(){ ['info','foot'].forEach(id=>{ const e=$(id); e.classList.add('late'); e.hidden=false; }); }
@@ -604,7 +599,7 @@ async function load(retry){
   const nowT = Date.now();
   T = DATA.t.filter(t=>{ const e=endOf(t); return !e || e.getTime()>nowT; });
   $('filters').hidden = false; head(); render(true); reveal();
-  { const a = document.querySelector('#catRow [aria-pressed="true"]'); if (a) $('catRow').scrollLeft = Math.max(0, a.offsetLeft - 24); }
+  { const a = document.querySelector('#catRow [aria-pressed="true"]'); if (a) { const r = $('catRow'); r.scrollLeft = Math.max(0, a.getBoundingClientRect().left - r.getBoundingClientRect().left + r.scrollLeft - 24); } }
   if (st.pin && T.some(t=>t.reg===st.pin)) $('list').scrollIntoView({block:'start'});
 }
 // theme: stored choice wins, otherwise the system setting; the toggle flips what is shown now
