@@ -7,13 +7,14 @@
 <meta name="description" content="სახელმწიფო ტენდერები მშენებლობასა და რემონტზე: სად იქნება ნაკლები კონკურენტი და რა ფასად იგებენ.">
 <meta name="theme-color" content="#16202B">
 <script>try{if(localStorage.getItem("radar-seen-v1"))document.documentElement.dataset.seen=1}catch(e){}</script>
-<link rel="icon" href="data:,">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='10' fill='%231B43B8'/%3E%3Ccircle cx='18' cy='18' r='9' fill='none' stroke='%23fff' stroke-width='2.5'/%3E%3Ccircle cx='26' cy='11' r='3.5' fill='%235BE39B'/%3E%3C/svg%3E">
 <link rel="preload" href="data.json" as="fetch" crossorigin>
 <style>
 /* layout: mobile first. one sentence of context, one number, work-type chips, then the cards; explanations live in "how it works" below the list (side column on wide screens) */
 :root{
-  --paper:#F5F2EA; --sheet:#FFFFFF; --ink:#16202B; --muted:#3F4A56; --line:#D6D0C2;
-  --accent:#1B43B8; --onaccent:#FFFFFF; --good:#0B5030; --warn:#684105; --bad:#7B2519;
+  --hero1:#EAEFFB; --hero2:#F3F1E8; --ring:rgba(23,59,158,.06);
+  --paper:#F5F2EA; --sheet:#FFFFFF; --ink:#16202B; --muted:#38434F; --line:#D6D0C2;
+  --accent:#173B9E; --onaccent:#FFFFFF; --good:#0B5030; --warn:#684105; --bad:#7B2519;
   --goodbg:#DDF0E4; --warnbg:#FBEFD5; --lowbg:#F8E4E0; --nabg:#E9ECEF; --skel:#E6E3DA;
   --gs-hi:#2E9E62; --gs-mid:#D9962B; --gs-lo:#C8503F; --gs-na:#7A8591;
   --r:14px; --r2:10px;
@@ -22,13 +23,15 @@
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#B4BDC7; --line:#34404C;
+  --hero1:#16202F; --hero2:#12171D; --ring:rgba(157,179,255,.07);
+  --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#C2CBD5; --line:#34404C;
   --accent:#9DB3FF; --onaccent:#0D1420; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
   --goodbg:#16302A; --warnbg:#33291A; --lowbg:#3A2420; --nabg:#252E38; --skel:#2A333D;
   --gs-hi:#3FB878; --gs-mid:#D9A03A; --gs-lo:#D8695A; --gs-na:#7F8A96;
   --sh1:0 1px 2px rgba(0,0,0,.4); color-scheme: dark; } }
 :root[data-theme="dark"]{
-  --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#B4BDC7; --line:#34404C;
+  --hero1:#16202F; --hero2:#12171D; --ring:rgba(157,179,255,.07);
+  --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#C2CBD5; --line:#34404C;
   --accent:#9DB3FF; --onaccent:#0D1420; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
   --goodbg:#16302A; --warnbg:#33291A; --lowbg:#3A2420; --nabg:#252E38; --skel:#2A333D;
   --gs-hi:#3FB878; --gs-mid:#D9A03A; --gs-lo:#D8695A; --gs-na:#7F8A96;
@@ -40,10 +43,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
 .wrap{max-width:1120px;margin:0 auto;padding:12px 16px 40px;display:grid;gap:12px}
 a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-header{display:grid;gap:6px}
-.brand{display:flex;align-items:center;gap:10px}
-.brand svg{width:32px;height:32px;flex:none}
-h1{font-size:24px;line-height:1.2;margin:0;font-weight:700}
+header.hero{position:relative;overflow:hidden;display:grid;gap:8px;padding:16px;border-radius:24px;background:linear-gradient(160deg,var(--hero1),var(--hero2) 70%);box-shadow:var(--sh1)}
+header.hero::before{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 22px,var(--ring) 22px 24px);pointer-events:none}
+header.hero>*{position:relative}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;flex:none;filter:drop-shadow(0 2px 4px rgba(27,67,184,.3))}
+h1{font-size:26px;line-height:1.15;margin:0;font-weight:700;letter-spacing:-.01em}
 .lede{margin:0;font-size:16px;line-height:1.45;font-weight:700}
 .good{margin:0;display:flex;align-items:center;gap:10px;font-size:16px;line-height:1.3;background:var(--goodbg);color:var(--ink);border-radius:var(--r2);padding:8px 12px}
 .good b{color:var(--good);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;min-width:2ch}
@@ -136,7 +141,7 @@ dl.gl dd{margin:0 0 4px;color:var(--muted)}
 .bt th{font-weight:400;color:var(--muted)}
 .tg{background:#E8EEF6;border-radius:12px;padding:10px}
 .bubble{background:#fff;color:#17202A;border-radius:10px;padding:10px 12px;font-size:16px;line-height:1.45;white-space:pre-line;overflow-wrap:anywhere}
-.bubble .t{font-size:16px;color:#3F4A56;text-align:right;display:block;margin-top:6px}
+.bubble .t{font-size:16px;color:#38434F;text-align:right;display:block;margin-top:6px}
 footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
 /* shown after the cards; on phones they sit below the list, so their layout waits until the reader scrolls near */
 @media (max-width:999px){ .late{content-visibility:auto;contain-intrinsic-size:auto 300px} }
@@ -155,8 +160,8 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".35"/><circle cx="16" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".6"/><path d="M16 16 L27 8" stroke="#2E9E62" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#2E9E62"/></svg><h1>ტენდერ რადარი</h1></div>
+  <header class="hero">
+    <div class="brand"><svg class="logo" viewBox="0 0 36 36" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2350C8"/><stop offset="1" stop-color="#173BA6"/></linearGradient></defs><rect width="36" height="36" rx="10" fill="url(#lg)"/><circle cx="18" cy="18" r="11" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle cx="18" cy="18" r="5.5" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2"/><path d="M18 18 L26 11" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="26.5" cy="10.5" r="3.2" fill="#5BE39B"/></svg><h1>ტენდერ რადარი</h1></div>
     <p class="lede">ყოველდღე ვპოულობთ სახელმწიფო ტენდერებს, სადაც ნაკლები კონკურენტია.</p>
     <p class="good" id="goodLine"><i class="d"></i><span>დღეს <b id="goodN">…</b> კარგი შანსის ტენდერი</span></p>
     <div class="stamp" id="stamp" role="status"><span id="upd">მონაცემები იტვირთება…</span> · <a href="https://tenders.procurement.gov.ge/public/?lang=ge" title="procurement.gov.ge">წყარო</a></div>
