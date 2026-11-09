@@ -17,7 +17,7 @@
   --brand:#166541; --brand-hover:#105638; --brand-pressed:#0B432C; --brand-soft:#E4F1E9; --brand-border:#8AAE98; --brand-text:#115034;
   --border:#B8BDB3; --border-strong:#7F8A80; --border-subtle:#DADDD5;
   --success:#135A3A; --success-soft:#E4F1E9; --warning:#724700; --warning-soft:#FFF0C9; --danger:#902727; --danger-soft:#FBE8E6; --unknown:#454E57; --unknown-soft:#E9ECEF;
-  --focus:#8A5B00;
+  --focus:#8A5B00; --danger-text:#FFFFFF; --danger-hover:#7A1F1F; --danger-pressed:#661919;
   --shadow-card:0 2px 8px rgba(23,40,32,.06),0 1px 2px rgba(23,40,32,.04); --shadow-hover:0 5px 16px rgba(23,40,32,.09); --shadow-pop:0 8px 24px rgba(23,40,32,.12);
   color-scheme: light;
   /* legacy names used by components until they are rebuilt */
@@ -39,7 +39,7 @@
   --brand:#76C69A; --brand-hover:#91D5AC; --brand-pressed:#7ABE98; --brand-soft:#243F30; --brand-border:#527D62; --brand-text:#C5E9D3;
   --border:#526057; --border-strong:#758579; --border-subtle:#39473E;
   --success:#A8E0BD; --success-soft:#234632; --warning:#FFD47A; --warning-soft:#49391D; --danger:#FFA6A2; --danger-soft:#482725; --unknown:#C8D1D6; --unknown-soft:#343E43;
-  --focus:#FFD47A;
+  --focus:#FFD47A; --danger-text:#311414; --danger-hover:#FFB8B5; --danger-pressed:#FF8F8A;
   --shadow-card:0 2px 8px rgba(0,0,0,.18); --shadow-hover:0 5px 16px rgba(0,0,0,.26); --shadow-pop:0 8px 24px rgba(0,0,0,.35);
   color-scheme: dark;
   --ring:rgba(242,244,237,.06); } }
@@ -49,7 +49,7 @@
   --brand:#76C69A; --brand-hover:#91D5AC; --brand-pressed:#7ABE98; --brand-soft:#243F30; --brand-border:#527D62; --brand-text:#C5E9D3;
   --border:#526057; --border-strong:#758579; --border-subtle:#39473E;
   --success:#A8E0BD; --success-soft:#234632; --warning:#FFD47A; --warning-soft:#49391D; --danger:#FFA6A2; --danger-soft:#482725; --unknown:#C8D1D6; --unknown-soft:#343E43;
-  --focus:#FFD47A;
+  --focus:#FFD47A; --danger-text:#311414; --danger-hover:#FFB8B5; --danger-pressed:#FF8F8A;
   --shadow-card:0 2px 8px rgba(0,0,0,.18); --shadow-hover:0 5px 16px rgba(0,0,0,.26); --shadow-pop:0 8px 24px rgba(0,0,0,.35);
   color-scheme: dark;
   --ring:rgba(242,244,237,.06); }
@@ -59,7 +59,7 @@ html,body{margin:0}
 body{background:var(--bg);color:var(--text-primary);font-family:var(--body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:400;-webkit-text-size-adjust:100%}
 .wrap{max-width:1120px;margin:0 auto;padding:var(--s3) var(--s4) var(--s10);display:grid;gap:var(--s4)}
 a{color:var(--accent)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 header.hero{position:relative;overflow:hidden;display:grid;gap:6px;padding:14px 16px;border-radius:20px;background:linear-gradient(160deg,var(--hero1),var(--hero2) 70%);box-shadow:var(--sh1)}
 header.hero::before{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 22px,var(--ring) 22px 24px);pointer-events:none}
 header.hero>*{position:relative}
@@ -80,7 +80,7 @@ html[data-seen] .first{display:none}
 .f3{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
 .f3 li{display:grid;gap:4px;justify-items:center;font-size:16px;line-height:1.3;font-weight:700}
 .f3 b{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--sheet);display:grid;place-items:center;font-size:16px}
-.first .linkbtn{justify-self:center}
+.first .btn-tertiary{justify-self:center}
 .filters{display:grid;gap:8px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font:inherit;font-size:16px;line-height:1.2;min-height:44px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
@@ -99,11 +99,6 @@ details.more-f[open]>summary::after{content:"-"}
 select,input[type=search]{font:inherit;font-size:16px;min-height:48px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 10px;border-radius:8px;width:100%}
 .status{min-height:44px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:16px;color:var(--muted)}
 .status b{color:var(--ink)}
-.linkbtn,details.sm>summary{font:inherit;font-size:16px;font-weight:700;line-height:1.25;color:var(--accent);background:var(--sheet);border:1.5px solid var(--accent);border-radius:var(--r2);text-decoration:none;cursor:pointer;min-height:44px;padding:8px 14px;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:fit-content;list-style:none}
-.ic{width:18px;height:18px;flex:none}
-@media (hover:hover){ .linkbtn:hover,details.sm>summary:hover{background:var(--accent-soft)} }
-.linkbtn:active,details.sm>summary:active{transform:scale(.97)}
-.linkbtn:focus-visible,details.sm>summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 main{display:grid;gap:14px}
 .list{display:grid;gap:14px}
 .card{--lc:var(--gs-na);position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh1);padding:14px 14px 10px 20px;display:grid;gap:8px;min-width:0;line-height:1.45}
@@ -133,22 +128,32 @@ main{display:grid;gap:14px}
 .money .v.win{font-size:20px;color:var(--good)}
 .money .v small{font-size:16px;font-weight:400;color:var(--muted)}
 .money .na{grid-column:1/-1;font-size:16px;color:var(--muted)}
-.dwrap{position:relative}
-details.sm>summary{padding:8px 12px}
-details.sm>summary::-webkit-details-marker{display:none}
-details.sm>summary::after{content:"";width:8px;height:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);flex:none}
-details.sm[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
 details.sm>div{font-size:16px;display:grid;gap:8px;padding:0 0 8px}
 details.sm p{margin:0}
 details.sm ul{margin:0;padding-left:20px}
-.sharebtn{position:absolute;right:0;top:0}
-@media (max-width:400px){ .sharebtn{width:44px;padding:0} .sharebtn .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap} }
-.btn{font:inherit;font-size:16px;font-weight:700;min-height:52px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);padding:10px 16px;border-radius:var(--r2);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.25}
-.btn.primary{background:linear-gradient(180deg,var(--b1),var(--b2));color:var(--onaccent);border-color:var(--b2);width:100%;box-shadow:0 1px 2px rgba(23,59,158,.35),inset 0 1px 0 rgba(255,255,255,.18)}
-.btn.primary:active{transform:translateY(1px);box-shadow:inset 0 2px 4px rgba(0,0,0,.25);background:var(--b2)}
-.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 .note{font-size:16px;line-height:1.3;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
 .mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+/* buttons: primary (main action), secondary (share), tertiary (text actions), danger (kept for destructive actions, none exist yet) */
+.btn,.btn-tertiary{font:inherit;font-size:16px;font-weight:600;line-height:1.25;display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);text-align:center;text-decoration:none;cursor:pointer;border:1px solid transparent;width:fit-content;-webkit-tap-highlight-color:transparent}
+.btn{min-height:48px;padding:var(--s3) var(--s4);border-radius:var(--r-btn)}
+.btn-tertiary{min-height:44px;padding:10px var(--s3);border-radius:var(--r-sm);background:transparent;color:var(--brand-text)}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:var(--text-inverse);width:100%}
+.btn-secondary{background:var(--surface-secondary);border-color:var(--border);color:var(--text-primary);padding-inline:14px}
+.btn-danger{background:var(--danger);border-color:var(--danger);color:var(--danger-text)}
+.btn:disabled,.btn[aria-disabled="true"],.btn-tertiary:disabled{opacity:.55;cursor:not-allowed}
+.btn:active,.btn-tertiary:active{transition-duration:.08s}
+.btn-primary:active{background:var(--brand-pressed);border-color:var(--brand-pressed)}
+.btn-secondary:active{background:var(--surface-pressed)}
+.btn-tertiary:active{background:var(--surface-pressed)}
+.btn-danger:active{background:var(--danger-pressed);border-color:var(--danger-pressed)}
+@media (hover:hover){ .btn-primary:hover{background:var(--brand-hover);border-color:var(--brand-hover)} .btn-secondary:hover{background:var(--surface-hover)} .btn-tertiary:hover{background:var(--brand-soft)} .btn-danger:hover{background:var(--danger-hover);border-color:var(--danger-hover)} }
+.btn:focus-visible,.btn-tertiary:focus-visible,.chip:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.ic{width:18px;height:18px;flex:none}
+details.sm>summary{list-style:none;cursor:pointer;width:fit-content}
+details.sm>summary::-webkit-details-marker{display:none}
+details.sm[open]>summary .ic{transform:rotate(180deg)}
+.dwrap{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:flex-start}
+.dwrap details[open]{flex-basis:100%}
 .morebtn{width:100%}
 .empty,.err{background:var(--sheet);border:1px dashed var(--line);border-radius:var(--r);padding:24px 16px;display:grid;gap:10px;justify-items:center;text-align:center}
 .empty p,.err p{margin:0}
@@ -190,7 +195,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
   details.sm::details-content{height:0;overflow:clip;transition:height .25s ease,content-visibility .25s allow-discrete}
   details.sm[open]::details-content{height:auto}
   details.sm[open]>div{animation:fade .3s ease-out} @keyframes fade{from{opacity:0}}
-  .btn,.chip,.linkbtn,details.sm>summary{transition:transform .12s ease,box-shadow .12s ease,background-color .15s ease} .chip:active,.linkbtn:active,details.sm>summary:active{transform:scale(.97)}
+  .btn,.btn-tertiary,.chip{transition:background-color .12s ease,border-color .12s ease} .chip:active{transform:scale(.97)}
   .toast{transition:opacity .2s}
 }
 @media (min-width:700px){ .fbody{grid-template-columns:1fr 1fr} .fgroup.wide{grid-column:1/-1} .first .f3 li{grid-template-columns:auto 1fr;text-align:left;justify-items:start;align-items:center;gap:10px} }
@@ -214,7 +219,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><g><symbol fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="i-share" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></symbol><symbol fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol><symbol fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol></g></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol><symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></symbol><symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol></svg>
 <div class="wrap">
   <header class="hero">
     <div class="brand"><svg class="logo" viewBox="0 0 36 36" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2350C8"/><stop offset="1" stop-color="#173BA6"/></linearGradient></defs><rect width="36" height="36" rx="10" fill="url(#lg)"/><circle cx="18" cy="18" r="11" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle cx="18" cy="18" r="5.5" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2"/><path d="M18 18 L26 11" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="26.5" cy="10.5" r="3.2" fill="#5BE39B"/></svg><h1>ტენდერ რადარი</h1></div>
@@ -226,7 +231,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 
   <section class="first" id="first" aria-label="როგორ მუშაობს">
     <ol class="f3"><li><b>1</b>აირჩიე სამუშაო</li><li><b>2</b>ნახე მწვანე ბარათი</li><li><b>3</b>გახსენი საიტზე</li></ol>
-    <button class="linkbtn" id="firstClose"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>გასაგებია, აღარ აჩვენო</button>
+    <button class="btn-tertiary" id="firstClose"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>გასაგებია, აღარ აჩვენო</button>
   </section>
 
   <div class="layout">
@@ -317,7 +322,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
         <div class="skel" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
         <p class="note" id="slowNote">ტენდერები იტვირთება…</p>
       </div>
-      <button class="btn morebtn" id="moreBtn" hidden></button>
+      <button class="btn btn-secondary morebtn" id="moreBtn" hidden></button>
     </main>
   </div>
 
@@ -437,8 +442,8 @@ function card(t, pinned){
     <h3 class="what" title="${esc(gen ? SHORT[t.c]+': '+org : t.desc)}">${what}</h3>
     ${gen?'':`<div class="who" title="${esc(org)}">ვინ იხდის: ${esc(orgShort(org))}</div>`}
     <div class="money"><span class="q">იხდიან</span><span class="v">${money(t.est)}</span>${price}</div>
-    <div class="dwrap"><details class="sm" data-fold="more"><summary>დაწვრილებით</summary><div></div></details><button class="linkbtn sharebtn" data-share="${esc(t.reg)}" aria-label="გაზიარება: ${esc(t.reg)}"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg><span class="lbl">გაზიარება</span></button></div>
-    <a class="btn primary" data-open="${esc(t.reg)}" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge">ოფიციალურ საიტზე გახსნა</a>
+    <div class="dwrap"><details class="sm" data-fold="more"><summary class="btn-tertiary"><span>დაწვრილებით</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></summary><div></div></details><button class="btn btn-secondary sharebtn" data-share="${esc(t.reg)}" aria-label="გაზიარება: ${esc(t.reg)}"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg><span>გაზიარება</span></button></div>
+    <a class="btn btn-primary" data-open="${esc(t.reg)}" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg><span>ოფიციალურ საიტზე გახსნა</span></a>
     <p class="note">ნომერი დაკოპირდება</p>`;
   return el;
 }
@@ -534,14 +539,14 @@ function render(progressive, quiet){
   }
   const act = activeLabels(), today = L.filter(isToday).length;
   if(!L.length){ const e=document.createElement('div'); e.className='empty';
-    e.innerHTML = act.length ? `<p><b>ამ არჩევანით ტენდერი ახლა არ არის.</b></p><p>სცადე სხვა სამუშაო ან თანხა.</p><button class="btn primary" data-act="clear">ყველა ტენდერის ჩვენება</button>`
+    e.innerHTML = act.length ? `<p><b>ამ არჩევანით ტენდერი ახლა არ არის.</b></p><p>სცადე სხვა სამუშაო ან თანხა.</p><button class="btn btn-primary" data-act="clear">ყველა ტენდერის ჩვენება</button>`
       : `<p><b>ახალი ტენდერი ახლა არ არის.</b></p><p>ხვალ დილით ისევ შეამოწმე.</p>`;
     list.appendChild(e); }
   const mb = $('moreBtn'), rest = L.length - Math.min(shown, L.length);
   mb.hidden = rest<=0; mb.textContent = `მაჩვენე კიდევ ${Math.min(PAGE,rest)} (დარჩა ${rest})`;
   $('count').innerHTML = `<span><b>${L.length}</b> ტენდერი${act.length?` · ${esc(act.join(', '))}`:''}</span>`
-    + (act.length?'<button class="linkbtn" data-act="clear"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>ფილტრების გასუფთავება</button>':'')
-    + (today && st.sort!=='deadline' ? `<button class="linkbtn" data-act="today"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>დღეს მთავრდება: ${today}</button>` : '');
+    + (act.length?'<button class="btn-tertiary" data-act="clear"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-reset"/></svg>ფილტრების გასუფთავება</button>':'')
+    + (today && st.sort!=='deadline' ? `<button class="btn-tertiary" data-act="today"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>დღეს მთავრდება: ${today}</button>` : '');
 }
 
 function head(){
@@ -574,7 +579,7 @@ async function load(retry){
     if (!DATA || !Array.isArray(DATA.t) || !Array.isArray(DATA.o)) throw new Error('bad data');
   } catch(e) {
     list.setAttribute('aria-busy','false');
-    list.innerHTML = `<div class="err" role="alert"><p><b>ტენდერები ვერ ჩამოვიტანეთ.</b></p><p>შეამოწმე ინტერნეტი და სცადე თავიდან.</p><button class="btn primary" id="retry">სცადე თავიდან</button></div>`;
+    list.innerHTML = `<div class="err" role="alert"><p><b>ტენდერები ვერ ჩამოვიტანეთ.</b></p><p>შეამოწმე ინტერნეტი და სცადე თავიდან.</p><button class="btn btn-primary" id="retry">სცადე თავიდან</button></div>`;
     $('retry').onclick = () => { list.innerHTML = '<p class="note">ვცდილობ თავიდან…</p>'; load(true); };
     $('upd').textContent = 'მონაცემები ვერ ჩაიტვირთა';
     $('goodLine').hidden = true;
