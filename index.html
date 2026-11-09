@@ -14,7 +14,7 @@
 :root{
   --hero1:#EAEFFB; --hero2:#F3F1E8; --ring:rgba(23,59,158,.06);
   --paper:#F5F2EA; --sheet:#FFFFFF; --ink:#16202B; --muted:#38434F; --line:#D6D0C2;
-  --accent:#173B9E; --onaccent:#FFFFFF; --good:#0B5030; --warn:#684105; --bad:#7B2519;
+  --accent:#173B9E; --onaccent:#FFFFFF; --b1:#2049BC; --b2:#173B9E; --good:#0B5030; --warn:#684105; --bad:#7B2519;
   --goodbg:#DDF0E4; --warnbg:#FBEFD5; --lowbg:#F8E4E0; --nabg:#E9ECEF; --skel:#E6E3DA;
   --gs-hi:#2E9E62; --gs-mid:#D9962B; --gs-lo:#C8503F; --gs-na:#7A8591;
   --r:14px; --r2:10px;
@@ -25,17 +25,17 @@
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --hero1:#16202F; --hero2:#12171D; --ring:rgba(157,179,255,.07);
   --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#C2CBD5; --line:#34404C;
-  --accent:#9DB3FF; --onaccent:#0D1420; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
+  --accent:#9DB3FF; --onaccent:#0D1420; --b1:#B5C7FF; --b2:#88A3FA; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
   --goodbg:#16302A; --warnbg:#33291A; --lowbg:#3A2420; --nabg:#252E38; --skel:#2A333D;
   --gs-hi:#3FB878; --gs-mid:#D9A03A; --gs-lo:#D8695A; --gs-na:#7F8A96;
-  --sh1:0 1px 2px rgba(0,0,0,.4); color-scheme: dark; } }
+  --sh1:0 1px 2px rgba(0,0,0,.4); --sh2:0 6px 18px rgba(0,0,0,.5); color-scheme: dark; } }
 :root[data-theme="dark"]{
   --hero1:#16202F; --hero2:#12171D; --ring:rgba(157,179,255,.07);
   --paper:#12171D; --sheet:#1A2129; --ink:#EEF1F4; --muted:#C2CBD5; --line:#34404C;
-  --accent:#9DB3FF; --onaccent:#0D1420; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
+  --accent:#9DB3FF; --onaccent:#0D1420; --b1:#B5C7FF; --b2:#88A3FA; --good:#6FD6A0; --warn:#EDB968; --bad:#F2A89C;
   --goodbg:#16302A; --warnbg:#33291A; --lowbg:#3A2420; --nabg:#252E38; --skel:#2A333D;
   --gs-hi:#3FB878; --gs-mid:#D9A03A; --gs-lo:#D8695A; --gs-na:#7F8A96;
-  --sh1:0 1px 2px rgba(0,0,0,.4); color-scheme: dark; }
+  --sh1:0 1px 2px rgba(0,0,0,.4); --sh2:0 6px 18px rgba(0,0,0,.5); color-scheme: dark; }
 *{box-sizing:border-box}
 [hidden]{display:none !important}
 html,body{margin:0}
@@ -83,12 +83,14 @@ select,input[type=search]{font:inherit;font-size:16px;min-height:48px;border:1px
 .linkbtn{font:inherit;font-size:16px;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;min-height:44px;padding:0 4px}
 main{display:grid;gap:14px}
 .list{display:grid;gap:14px}
-.card{--lc:var(--gs-na);background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);box-shadow:inset 6px 0 0 var(--lc),var(--sh1);padding:12px 14px 8px 20px;display:grid;gap:6px;min-width:0;line-height:1.45}
+.card{--lc:var(--gs-na);position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh1);padding:14px 14px 10px 20px;display:grid;gap:8px;min-width:0;line-height:1.45}
+.card::before{content:"";position:absolute;left:8px;top:16px;bottom:16px;width:4px;border-radius:4px;background:var(--lc)}
 .card.hi{--lc:var(--gs-hi)} .card.mid{--lc:var(--gs-mid)} .card.lo{--lc:var(--gs-lo)}
+@media (hover:hover){ .card{transition:transform .18s ease,box-shadow .18s ease} .card:hover{transform:translateY(-2px);box-shadow:var(--sh2)} }
 .card.pinned{outline:3px solid var(--accent)}
-.top{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;justify-content:space-between}
-.pill{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:700;line-height:1.3;padding:4px 12px 4px 10px;border-radius:999px}
-.pill .d{width:12px;height:12px}
+.top{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:center;justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:700;line-height:1.3;padding:3px 10px 3px 8px;border-radius:999px}
+.pill .d{width:10px;height:10px}
 .pill.hi{background:var(--goodbg);color:var(--good)} .pill.hi .d{background:var(--gs-hi)}
 .pill.mid{background:var(--warnbg);color:var(--warn)} .pill.mid .d{background:var(--gs-mid)}
 .pill.lo{background:var(--lowbg);color:var(--bad)} .pill.lo .d{background:var(--gs-lo)}
@@ -97,13 +99,15 @@ main{display:grid;gap:14px}
 .due.urgent{color:var(--warn)}
 .due.soon{color:var(--muted);font-weight:400}
 .flag{background:var(--warnbg);color:var(--ink);font-size:16px;font-weight:700;padding:6px 10px;border-radius:8px}
-.what{font-size:17px;font-weight:700;line-height:1.35;margin:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
-.what .nodesc{font-weight:400;color:var(--muted);font-size:16px}
+.what{font-size:17px;font-weight:600;line-height:1.35;margin:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
 .who{font-size:16px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.money{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 14px;align-items:baseline;background:var(--paper);border-radius:var(--r2);padding:8px 12px}
+.meter{display:inline-flex;gap:2px;margin-left:2px}
+.meter i{width:10px;height:8px;border-radius:3px;background:currentColor;opacity:.22}
+.meter.m1 i:nth-child(-n+1),.meter.m2 i:nth-child(-n+2),.meter.m3 i{opacity:1}
+.money{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 8px;align-items:baseline;background:var(--paper);border-radius:var(--r2);padding:6px 10px}
 .money .q{font-size:16px;color:var(--muted)}
-.money .v{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.money .v.win{color:var(--good)}
+.money .v{font-size:24px;line-height:1.3;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.money .v.win{font-size:20px;color:var(--good);white-space:nowrap}
 .money .v small{font-size:16px;font-weight:400;color:var(--muted)}
 .money .na{grid-column:1/-1;font-size:16px;color:var(--muted)}
 .dwrap{position:relative}
@@ -116,8 +120,10 @@ details.sm p{margin:0}
 details.sm ul{margin:0;padding-left:20px}
 .sharebtn{position:absolute;right:0;top:0}
 .btn{font:inherit;font-size:16px;font-weight:700;min-height:52px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);padding:10px 16px;border-radius:var(--r2);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.25}
-.btn.primary{background:var(--accent);color:var(--onaccent);border-color:var(--accent);width:100%}
-.note{font-size:16px;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
+.btn.primary{background:linear-gradient(180deg,var(--b1),var(--b2));color:var(--onaccent);border-color:var(--b2);width:100%;box-shadow:0 1px 2px rgba(23,59,158,.35),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn.primary:active{transform:translateY(1px);box-shadow:inset 0 2px 4px rgba(0,0,0,.25);background:var(--b2)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.note{font-size:16px;line-height:1.3;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
 .mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}
 .morebtn{width:100%}
 .empty,.err{background:var(--sheet);border:1px dashed var(--line);border-radius:var(--r);padding:24px 16px;display:grid;gap:10px;justify-items:center;text-align:center}
@@ -152,9 +158,9 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 .toast.on{opacity:1}
 @media (prefers-reduced-motion: no-preference){
   .skel i{animation:pulse 1.4s ease-in-out infinite} @keyframes pulse{50%{opacity:.5}}
-  .card{animation:rise .3s ease-out both} @keyframes rise{from{transform:translateY(10px)}}
+  .card{animation:rise .3s ease-out backwards} @keyframes rise{from{transform:translateY(10px)}}
   details.sm[open]>div{animation:fade .25s ease-out} @keyframes fade{from{opacity:0}}
-  .btn,.chip{transition:transform .12s ease,background-color .15s ease} .btn:active,.chip:active{transform:scale(.97)}
+  .btn,.chip{transition:transform .12s ease,box-shadow .12s ease} .chip:active{transform:scale(.97)}
   .toast{transition:opacity .2s}
 }
 @media (min-width:700px){ .fbody{grid-template-columns:1fr 1fr} .fgroup.wide{grid-column:1/-1} .first .f3 li{grid-template-columns:auto 1fr;text-align:left;justify-items:start;align-items:center;gap:10px} }
@@ -229,7 +235,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
           <div class="legend">
             <span><i class="d"></i>მწვანე: კარგი შანსი, ცოტა კონკურენტი</span>
             <span><i class="d" style="background:var(--gs-mid)"></i>ყვითელი: საშუალო შანსი</span>
-            <span><i class="d" style="background:var(--gs-lo)"></i>წითელი: ბევრი კონკურენტი</span>
+            <span><i class="d" style="background:var(--gs-lo)"></i>წითელი: დაბალი შანსი, ბევრი კონკურენტი</span>
             <span><i class="d" style="background:var(--gs-na)"></i>ნაცრისფერი: ჯერ უცნობია</span>
           </div>
         </div>
@@ -281,7 +287,9 @@ const VALID = new Set(['45200000','45400000','45100000']);
 // tested 06.11.2026: share of tenders with a single bidder among the top 20% radar scores vs all, after 01.07.2026
 const BT = {'45200000':[59,42],'45400000':[49,30],'45100000':[63,41]};
 const MONTHS = ['იანვარი','თებერვალი','მარტი','აპრილი','მაისი','ივნისი','ივლისი','აგვისტო','სექტემბერი','ოქტომბერი','ნოემბერი','დეკემბერი'];
-const LV = {hi:'კარგი შანსი',mid:'საშუალო შანსი',lo:'ბევრი კონკურენტი',na:'ჯერ უცნობია'};
+const LV = {hi:'კარგი შანსი',mid:'საშუალო შანსი',lo:'დაბალი შანსი',na:'ჯერ უცნობია'};
+const MT = {hi:'ცოტა კონკურენტი',mid:'საშუალო კონკურენცია',lo:'ბევრი კონკურენტი'}, MN = {hi:1,mid:2,lo:3};
+const GENERIC = /^(იხილეთ|მრავალწლიანი შესყიდვა|საქ\. მთავრობის \d+ განკარგულება)/;
 const bands = [['all','ნებისმიერი',0,Infinity],['s','30 000 ლარამდე',0,30000],['m','30-100 ათასი',30000,100000],['l','100-300 ათასი',100000,300000],['xl','300 ათასზე მეტი',300000,Infinity]];
 const PAGE = 10, STALE_H = 36;
 let DATA = null, T = [], shown = PAGE, renderId = 0;
@@ -348,7 +356,7 @@ function foldMore(t){
   return `
       <p><b>რატომ ${lvl(t)==='na'?'ნაცრისფერი':'ეს ფერი'}?</b> ${whyText(t)}</p>${how}
       <ul>
-        ${t.desc?`<li>სამუშაო: ${esc(t.desc)}</li>`:''}
+        ${t.desc?`<li>სამუშაო: ${esc(t.desc)}</li>`:'<li>სამუშაოს აღწერა ოფიციალურ საიტზეა</li>'}
         <li>ვინ ეძებს: ${esc(org)}</li>
         <li>რამდენი კონკურენტი იქნება: ${bidders(t)}</li>
         ${start && t.s===10 ? `<li>განაცხადების მიღება იწყება: ${humanDT(start)}</li>` : ''}
@@ -366,7 +374,8 @@ function fill(e){ const d = e.target; if (!d.open || d.dataset.fold===undefined 
 
 function card(t, pinned){
   const L = lvl(t), due = dueText(t), org = DATA.o[t.org];
-  const what = t.desc ? esc(t.desc) : `${esc(SHORT[t.c])} <span class="nodesc">(აღწერა საიტზეა)</span>`;
+  const gen = !t.desc || t.desc.length < 12 || GENERIC.test(t.desc);
+  const what = gen ? `${esc(SHORT[t.c])}: ${esc(orgShort(org))}` : esc(t.desc);
   let price = '<span class="na">ფასის ორიენტირი ამ სამუშაოზე ჯერ არ გვაქვს.</span>';
   if (VALID.has(t.c)) {
     const p = priceRange(t);
@@ -374,11 +383,11 @@ function card(t, pinned){
   }
   const el = document.createElement('article'); el.className = 'card ' + L + (pinned?' pinned':''); el.id = 't-' + t.reg; el.dataset.reg = t.reg;
   el.innerHTML = `
-    <div class="top"><span class="pill ${L}"><i class="d"></i>${LV[L]}</span><span class="due ${due.cls}">${due.txt}</span></div>
+    <div class="top"><span class="pill ${L}">${LV[L]}${L==='na'?'':`<span class="meter m${MN[L]}" aria-hidden="true" title="${MT[L]}"><i></i><i></i><i></i></span><span class="sr">, ${MT[L]}</span>`}</span><span class="due ${due.cls}">${due.txt}</span></div>
     ${pinned?'<div class="flag">ეს ტენდერი გაგიზიარეს</div>':''}
     ${isToday(t)?'<div class="flag">დღეს მთავრდება: მხოლოდ თუ უკვე მზად ხარ</div>':''}
-    <h3 class="what" title="${esc(t.desc||SHORT[t.c])}">${what}</h3>
-    <div class="who" title="${esc(org)}">ვინ იხდის: ${esc(orgShort(org))}</div>
+    <h3 class="what" title="${esc(gen ? SHORT[t.c]+': '+org : t.desc)}">${what}</h3>
+    ${gen?'':`<div class="who" title="${esc(org)}">ვინ იხდის: ${esc(orgShort(org))}</div>`}
     <div class="money"><span class="q">იხდიან</span><span class="v">${money(t.est)}</span>${price}</div>
     <div class="dwrap"><details class="sm" data-fold="more"><summary>დაწვრილებით</summary><div></div></details><button class="linkbtn sharebtn" data-share="${esc(t.reg)}" aria-label="გაზიარება: ${esc(t.reg)}">გაზიარება</button></div>
     <a class="btn primary" data-open="${esc(t.reg)}" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge">ოფიციალურ საიტზე გახსნა</a>
