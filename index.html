@@ -101,37 +101,47 @@ select,input[type=search]{font:inherit;font-size:16px;min-height:48px;border:1px
 .status b{color:var(--ink)}
 main{display:grid;gap:14px}
 .list{display:grid;gap:14px}
-.card{--lc:var(--gs-na);position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh1);padding:14px 14px 10px 20px;display:grid;gap:8px;min-width:0;line-height:1.45}
-.card::before{content:"";position:absolute;left:8px;top:16px;bottom:16px;width:4px;border-radius:4px;background:var(--lc)}
-.card.hi{--lc:var(--gs-hi)} .card.mid{--lc:var(--gs-mid)} .card.lo{--lc:var(--gs-lo)}
-@media (hover:hover){ .card{transition:transform .18s ease,box-shadow .18s ease} .card:hover{transform:translateY(-2px);box-shadow:var(--sh2)} }
-.card.pinned{outline:3px solid var(--accent)}
-.top{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:center;justify-content:space-between}
-.pill{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:700;line-height:1.3;padding:3px 10px 3px 8px;border-radius:999px}
-.pill .d{width:10px;height:10px}
-.pill.hi{background:var(--goodbg);color:var(--good)} .pill.hi .d{background:var(--gs-hi)}
-.pill.mid{background:var(--warnbg);color:var(--warn)} .pill.mid .d{background:var(--gs-mid)}
-.pill.lo{background:var(--lowbg);color:var(--bad)} .pill.lo .d{background:var(--gs-lo)}
-.pill.na{background:var(--nabg);color:var(--muted)} .pill.na .d{background:var(--gs-na)}
-.due{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
-.due.urgent{color:var(--warn)}
-.due.soon{color:var(--muted);font-weight:400}
-.flag{background:var(--warnbg);color:var(--ink);font-size:16px;font-weight:700;padding:6px 10px;border-radius:8px}
-.what{font-size:17px;font-weight:600;line-height:1.35;margin:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
-.who{font-size:16px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.meter{display:inline-flex;gap:2px;margin-left:2px}
-.meter i{width:10px;height:8px;border-radius:3px;background:currentColor;opacity:.22}
-.meter.m1 i:nth-child(-n+1),.meter.m2 i:nth-child(-n+2),.meter.m3 i{opacity:1}
-.money{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 8px;align-items:baseline;background:var(--paper);border-radius:var(--r2);padding:6px 10px}
-.money .q{font-size:16px;color:var(--muted)}
-.money .v{font-size:24px;line-height:1.3;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.money .v.win{font-size:20px;color:var(--good)}
-.money .v small{font-size:16px;font-weight:400;color:var(--muted)}
-.money .na{grid-column:1/-1;font-size:16px;color:var(--muted)}
-details.sm>div{font-size:16px;display:grid;gap:8px;padding:0 0 8px}
-details.sm p{margin:0}
-details.sm ul{margin:0;padding-left:20px}
 .note{font-size:16px;line-height:1.3;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
+/* tender card */
+.list{display:grid;gap:var(--s4)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-card);padding:var(--s4);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--s3);min-width:0;line-height:var(--lh-body);max-width:720px}
+.card>*{grid-column:1/-1;min-width:0}
+.card.pinned{outline:3px solid var(--brand);outline-offset:2px}
+.badges{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
+.badge{display:inline-flex;align-items:center;gap:var(--s2);min-height:32px;padding:6px 10px;border-radius:7px;font-size:16px;font-weight:600;line-height:1.2;border:1px solid currentColor}
+.badge.hi{background:var(--success-soft);color:var(--success)}
+.badge.mid{background:var(--warning-soft);color:var(--warning)}
+.badge.lo{background:var(--danger-soft);color:var(--danger)}
+.badge.na{background:var(--unknown-soft);color:var(--unknown)}
+.badge.today{background:var(--warning-soft);color:var(--warning);margin-left:auto}
+.meter{display:inline-flex;gap:2px}
+.meter i{width:10px;height:8px;border-radius:3px;background:currentColor;opacity:.25}
+.meter.m1 i:nth-child(-n+1),.meter.m2 i:nth-child(-n+2),.meter.m3 i{opacity:1}
+.flag{background:var(--brand-soft);color:var(--text-primary);font-weight:600;padding:6px 10px;border-radius:var(--r-sm)}
+.price{display:flex;align-items:baseline;gap:var(--s2);flex-wrap:wrap}
+.price b{font-size:var(--fs-price);font-weight:700;line-height:1.2;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.price span{color:var(--text-secondary)}
+.est{margin:calc(var(--s2) * -1) 0 0;font-weight:600;color:var(--success);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.est.na{font-weight:400;color:var(--text-secondary)}
+.title{font-size:var(--fs-title);font-weight:700;line-height:1.3;color:var(--text-primary);overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;margin:0}
+.org,.deadline{color:var(--text-secondary);line-height:var(--lh-meta);margin:0}
+.org{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .more{grid-column:1;justify-self:start;margin-left:calc(var(--s3) * -1)}
+.card .sharebtn{grid-column:2;justify-self:end}
+.more .ic{transition:transform .12s ease}
+.more[aria-expanded="true"] .ic{transform:rotate(180deg)}
+.pnl{background:var(--surface-secondary);border-radius:var(--r-sm);padding:var(--s3);display:grid;gap:var(--s2);color:var(--text-primary)}
+.pnl p{margin:0}
+.pnl ul{margin:0;padding-left:var(--s5)}
+@media (min-width:600px){
+  .card{padding:var(--s5);gap:14px;border-radius:var(--r-card)}
+  .card .go{grid-column:1}
+  .card .sharebtn{grid-row:auto}
+  .card .more{grid-column:1/-1;grid-row:auto}
+}
+@media (hover:hover){ .card:hover{box-shadow:var(--shadow-hover)} }
+.note{font-size:16px;line-height:1.3;color:var(--muted);margin:0;text-align:center;overflow-wrap:anywhere}
+
 .mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}
 /* buttons: primary (main action), secondary (share), tertiary (text actions), danger (kept for destructive actions, none exist yet) */
 .btn,.btn-tertiary{font:inherit;font-size:16px;font-weight:600;line-height:1.25;display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);text-align:center;text-decoration:none;cursor:pointer;border:1px solid transparent;width:fit-content;-webkit-tap-highlight-color:transparent}
@@ -149,11 +159,6 @@ details.sm ul{margin:0;padding-left:20px}
 @media (hover:hover){ .btn-primary:hover{background:var(--brand-hover);border-color:var(--brand-hover)} .btn-secondary:hover{background:var(--surface-hover)} .btn-tertiary:hover{background:var(--brand-soft)} .btn-danger:hover{background:var(--danger-hover);border-color:var(--danger-hover)} }
 .btn:focus-visible,.btn-tertiary:focus-visible,.chip:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .ic{width:18px;height:18px;flex:none}
-details.sm>summary{list-style:none;cursor:pointer;width:fit-content}
-details.sm>summary::-webkit-details-marker{display:none}
-details.sm[open]>summary .ic{transform:rotate(180deg)}
-.dwrap{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:flex-start}
-.dwrap details[open]{flex-basis:100%}
 .morebtn{width:100%}
 .empty,.err{background:var(--sheet);border:1px dashed var(--line);border-radius:var(--r);padding:24px 16px;display:grid;gap:10px;justify-items:center;text-align:center}
 .empty p,.err p{margin:0}
@@ -186,17 +191,8 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:var(--r2);box-shadow:var(--sh2);font-size:16px;opacity:0;pointer-events:none;max-width:calc(100% - 32px)}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion: no-preference){
-  .skel i{animation:pulse 1.4s ease-in-out infinite} @keyframes pulse{50%{opacity:.5}}
-  .list>.card:nth-child(n+2){animation:rise .35s cubic-bezier(.2,.7,.2,1) backwards} @keyframes rise{from{opacity:0;transform:translateY(12px)}}
-  .list>.card:nth-child(3){animation-delay:40ms} .list>.card:nth-child(4){animation-delay:80ms} .list>.card:nth-child(5){animation-delay:120ms} .list>.card:nth-child(6){animation-delay:160ms} .list>.card:nth-child(n+7){animation-delay:200ms}
-  .list.quiet>.card{animation:none}
-  .list.swap{animation:fade .18s ease-out}
-  :root{interpolate-size:allow-keywords}
-  details.sm::details-content{height:0;overflow:clip;transition:height .25s ease,content-visibility .25s allow-discrete}
-  details.sm[open]::details-content{height:auto}
-  details.sm[open]>div{animation:fade .3s ease-out} @keyframes fade{from{opacity:0}}
   .btn,.btn-tertiary,.chip{transition:background-color .12s ease,border-color .12s ease} .chip:active{transform:scale(.97)}
-  .toast{transition:opacity .2s}
+  .card{transition:box-shadow .15s ease} .toast{transition:opacity .15s}
 }
 @media (min-width:700px){ .fbody{grid-template-columns:1fr 1fr} .fgroup.wide{grid-column:1/-1} .first .f3 li{grid-template-columns:auto 1fr;text-align:left;justify-items:start;align-items:center;gap:10px} }
 .layout{display:grid;gap:var(--s4)}
@@ -419,32 +415,35 @@ function foldMore(t){
         <li>სამუშაოს ტიპი: ${esc(SHORT[t.c])}</li>
         <li>ტენდერის ნომერი: <span class="mono">${esc(t.reg)}</span></li>
       </ul>
-      <p>საიტზე ტექსტი წვრილია, გაადიდე თითებით.</p>`;
+      <p>ოფიციალურ საიტზე ტექსტი წვრილია, გაადიდე თითებით.</p>`;
 }
-function fill(e){ const d = e.target; if (!d.open || d.dataset.fold===undefined || d.dataset.done) return;
-  const t = T.find(x=>x.reg===d.closest('article').dataset.reg); if (!t) return;
-  d.querySelector('div').innerHTML = foldMore(t); d.dataset.done = 1; }
+function toggleMore(btn){
+  const art = btn.closest('article'), p = art.querySelector('.pnl'), open = btn.getAttribute('aria-expanded') !== 'true';
+  if (open && !p.dataset.done) { const t = T.find(x=>x.reg===art.dataset.reg); if (t) { p.innerHTML = foldMore(t); p.dataset.done = 1; } }
+  btn.setAttribute('aria-expanded', open); p.hidden = !open;
+}
 
 function card(t, pinned){
-  const L = lvl(t), due = dueText(t), org = DATA.o[t.org];
+  const L = lvl(t), org = DATA.o[t.org], end = endOf(t), start = parseDT(t.start);
   const gen = !t.desc || t.desc.length < 12 || GENERIC.test(t.desc);
   const what = gen ? `${esc(SHORT[t.c])}: ${esc(orgShort(org))}` : esc(t.desc);
-  let price = '<span class="na">ფასის ორიენტირი ამ სამუშაოზე ჯერ არ გვაქვს.</span>';
-  if (VALID.has(t.c)) {
-    const p = priceRange(t);
-    price = `<span class="q">ორიენტირი</span><span class="v win">~${p.single ? money(p.lo) : `${num(p.lo)}-${money(p.hi)}`}${p.single?' <small>(80%-ის ზღვარზე)</small>':''}</span>`;
-  }
+  let est = '<p class="est na">ფასის ორიენტირი ამ სამუშაოზე ჯერ არ გვაქვს.</p>';
+  if (VALID.has(t.c)) { const p = priceRange(t); est = `<p class="est">ორიენტირი: ~${p.single ? money(p.lo) : `${num(p.lo)}-${money(p.hi)}`}${p.single?' (80%-ის ზღვარზე)':''}</p>`; }
+  const dl = t.s===10 && start && start>new Date() ? `მიღება იწყება: ${humanDT(start)}` : `ბოლო ვადა: ${end ? relDT(end) : 'უცნობია'}`;
+  const meter = L==='na' ? '' : `<span class="meter m${MN[L]}" aria-hidden="true"><i></i><i></i><i></i></span>`;
   const el = document.createElement('article'); el.className = 'card ' + L + (pinned?' pinned':''); el.id = 't-' + t.reg; el.dataset.reg = t.reg;
   el.innerHTML = `
-    <div class="top"><span class="pill ${L}">${LV[L]}${L==='na'?'':`<span class="meter m${MN[L]}" aria-hidden="true" title="${MT[L]}"><i></i><i></i><i></i></span><span class="sr">, ${MT[L]}</span>`}</span><span class="due ${due.cls}">${due.txt}</span></div>
+    <div class="badges"><span class="badge ${L}">${LV[L]}${meter}</span>${isToday(t)?'<span class="badge today">დღეს მთავრდება</span>':''}</div>
     ${pinned?'<div class="flag">ეს ტენდერი გაგიზიარეს</div>':''}
-    ${isToday(t)?'<div class="flag">დღეს მთავრდება: მხოლოდ თუ უკვე მზად ხარ</div>':''}
-    <h3 class="what" title="${esc(gen ? SHORT[t.c]+': '+org : t.desc)}">${what}</h3>
-    ${gen?'':`<div class="who" title="${esc(org)}">ვინ იხდის: ${esc(orgShort(org))}</div>`}
-    <div class="money"><span class="q">იხდიან</span><span class="v">${money(t.est)}</span>${price}</div>
-    <div class="dwrap"><details class="sm" data-fold="more"><summary class="btn-tertiary"><span>დაწვრილებით</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></summary><div></div></details><button class="btn btn-secondary sharebtn" data-share="${esc(t.reg)}" aria-label="გაზიარება: ${esc(t.reg)}"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg><span>გაზიარება</span></button></div>
-    <a class="btn btn-primary" data-open="${esc(t.reg)}" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg><span>ოფიციალურ საიტზე გახსნა</span></a>
-    <p class="note">ნომერი დაკოპირდება</p>`;
+    <div class="price"><span class="sr">იხდიან: </span><b>${money(t.est)}</b><span aria-hidden="true">იხდიან</span></div>
+    ${est}
+    <h3 class="title" title="${esc(gen ? SHORT[t.c]+': '+org : t.desc)}">${what}</h3>
+    <p class="org" title="${esc(org)}">შემსყიდველი: ${esc(orgShort(org))}</p>
+    <p class="deadline">${dl}</p>
+    <a class="btn btn-primary go" data-open="${esc(t.reg)}" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-ext"/></svg><span>ოფიციალურ საიტზე გახსნა</span></a>
+    <button class="btn-tertiary more" data-more aria-expanded="false" aria-controls="p-${esc(t.reg)}"><span>დაწვრილებით</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
+    <button class="btn btn-secondary sharebtn" data-share="${esc(t.reg)}" aria-label="გაზიარება: ${esc(t.reg)}"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-share"/></svg><span>გაზიარება</span></button>
+    <div class="pnl" id="p-${esc(t.reg)}" hidden></div>`;
   return el;
 }
 
@@ -459,7 +458,6 @@ function chips(){
   $('firstClose').onclick=()=>{ document.documentElement.dataset.seen=1; try{ localStorage.setItem('radar-seen-v1','1'); }catch(e){} };
   $('moreBtn').onclick=()=>{ const from=shown; shown+=PAGE; render(false,true); const c=$('list').children[from]; if(c){ const a=c.querySelector('a,button'); a&&a.focus({preventScroll:true}); } };
   $('list').addEventListener('click', onListClick);
-  $('list').addEventListener('toggle', fill, true);
   $('count').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return;
     if (b.dataset.act==='clear') clearFilters();
     if (b.dataset.act==='today') { st.sort='deadline'; $('sort').value='deadline'; shown=PAGE; save(); render(); $('list').scrollIntoView({block:'start'}); } });
@@ -471,6 +469,7 @@ async function onListClick(e){
   const o = e.target.closest('[data-open]');
   // copy the number so it can be pasted into the portal search; navigation continues as normal
   if (o) { copyText(o.dataset.open).then(ok=>toast(ok ? 'ნომერი დაკოპირდა: ' + o.dataset.open : 'ტენდერის ნომერი: ' + o.dataset.open)); return; }
+  const m = e.target.closest('[data-more]'); if (m) return toggleMore(m);
   const s = e.target.closest('[data-share]'); if (s) return share(s.dataset.share);
   const c = e.target.closest('[data-act="clear"]'); if (c) return clearFilters();
 }
@@ -503,14 +502,6 @@ function activeLabels(){
 }
 
 
-function countUp(el, n){
-  el.innerHTML = `<span class="sr">${n}</span><span aria-hidden="true">${n}</span>`;
-  if (n < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const v = el.lastChild, t0 = performance.now(); v.textContent = '0';
-  const f = now => { const k = Math.min(1, (now - t0) / 600); v.textContent = Math.round(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); };
-  requestAnimationFrame(f);
-}
-
 function render(progressive, quiet){
   if (!DATA) return;
   const rid = ++renderId;
@@ -526,7 +517,7 @@ function render(progressive, quiet){
   const pin = st.pin && T.find(t=>t.reg===st.pin);
   if (pin) L = L.filter(t=>t!==pin);
   const list=$('list'); list.replaceChildren(); list.setAttribute('aria-busy','false');
-  list.classList.toggle('quiet', !!quiet); list.classList.remove('swap'); if (!progressive && !quiet) { void list.offsetWidth; list.classList.add('swap'); }
+  
   if (pin) list.appendChild(card(pin, true));
   // first paint: 2 cards now, the rest added one by one as the reader scrolls toward them, so a slow phone never freezes
   const items = L.slice(0,shown), lazy = progressive && 'IntersectionObserver' in window, now = lazy ? 2 : items.length;
@@ -554,7 +545,7 @@ function head(){
   $('upd').innerHTML = `განახლდა <b>${relDT(up)}</b>`;
   if (ageH > STALE_H) { const s=$('stale'); s.hidden=false; s.textContent = `მონაცემები ${Math.max(1,Math.floor(ageH/24))} დღის წინანდელია, ახალი ხვალ დილით იქნება`; }
   const hiN = T.filter(t=>lvl(t)==='hi').length;
-  countUp($('goodN'), hiN);
+  $('goodN').textContent = hiN;
   const tb=document.querySelector('#btTable tbody');
   CAT_ORDER.forEach(c=>{ const tr=document.createElement('tr'); tr.innerHTML = BT[c] ? `<td>${SHORT[c]}</td><td class="n" style="color:var(--good);font-weight:700">${BT[c][0]}%</td><td class="n">${BT[c][1]}%</td>` : `<td>${SHORT[c]}</td><td class="n" colspan="2">ჯერ არ ვიცით</td>`; tb.appendChild(tr); });
   const top = T.filter(t=>t.s===20 && lvl(t)==='hi').sort((a,b)=>b.sc-a.sc).slice(0,5);
