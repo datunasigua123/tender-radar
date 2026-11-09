@@ -164,7 +164,22 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
   .toast{transition:opacity .2s}
 }
 @media (min-width:700px){ .fbody{grid-template-columns:1fr 1fr} .fgroup.wide{grid-column:1/-1} .first .f3 li{grid-template-columns:auto 1fr;text-align:left;justify-items:start;align-items:center;gap:10px} }
-@media (min-width:1000px){ .layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start} aside{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto} }
+.layout{display:grid;gap:12px}
+.side{display:contents}
+.filters{order:1} main{order:2} aside{order:3}
+@media (min-width:1000px){
+  .wrap{padding-top:24px;gap:24px}
+  header.hero{padding:28px 32px;border-radius:28px;gap:10px}
+  header.hero::before{right:-40px;top:-90px;width:380px;height:380px}
+  .logo{width:48px;height:48px} h1{font-size:34px} .lede{font-size:20px;max-width:640px}
+  .layout{grid-template-columns:300px minmax(0,720px);justify-content:center;gap:32px;align-items:start}
+  .side{display:grid;gap:16px;align-content:start;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;grid-column:1;grid-row:1;padding:2px;scrollbar-width:thin}
+  .side>*{order:0} main{grid-column:2;grid-row:1}
+  .chips.strip{flex-wrap:wrap;overflow:visible;margin:0;padding:0;-webkit-mask-image:none;mask-image:none}
+  .fbody{grid-template-columns:1fr}
+  .money .v{font-size:28px}
+  .first{max-width:1052px;margin:0 auto;width:100%}
+}
 </style>
 </head>
 <body>
@@ -182,43 +197,34 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
     <button class="linkbtn" id="firstClose">გასაგებია, აღარ აჩვენო</button>
   </section>
 
-  <section class="filters" id="filters" aria-label="ფილტრები">
-    <div class="chips strip" id="catRow" role="group" aria-label="რა სამუშაოს აკეთებ">
-      <button class="chip" id="cat-all">ყველა</button>
-      <button class="chip" id="cat-45200000" title="სამშენებლო სამუშაოები">მშენებლობა</button>
-      <button class="chip" id="cat-45400000" title="რემონტი და მოპირკეთება">რემონტი</button>
-      <button class="chip" id="cat-45100000" title="მიწის და მოსამზადებელი სამუშაოები">მიწის სამუშაო</button>
-      <button class="chip" id="cat-45300000" title="სამონტაჟო სამუშაოები (დენი, წყალი, გათბობა)">დენი, წყალი</button>
-      <button class="chip" id="cat-71300000" title="საინჟინრო მომსახურება">საინჟინრო</button>
-      <button class="chip" id="cat-71200000" title="არქიტექტურა და პროექტირება">პროექტირება</button>
-    </div>
-    <details class="more-f" id="moreF">
-      <summary>მეტი ფილტრი</summary>
-      <div class="fbody">
-        <div class="fgroup wide"><span class="lab" id="valLab">რამდენ ფულზე</span><div class="chips" id="valRow" role="group" aria-labelledby="valLab"></div></div>
-        <div class="fgroup"><label class="lab" for="q">ქალაქი, ორგანიზაცია ან ნომერი</label><input type="search" id="q" placeholder="მაგალითად: ქუთაისი, სკოლა" enterkeyhint="search"></div>
-        <div class="fgroup"><label class="lab" for="sort">როგორ დავალაგო</label>
-          <select id="sort">
-            <option value="radar">ჯერ ის, სადაც ცოტა კონკურენტია</option>
-            <option value="deadline">ჯერ ის, რისი ვადაც მალე მთავრდება</option>
-            <option value="amount">ჯერ ყველაზე ძვირი</option>
-          </select></div>
-        <div class="fgroup"><button class="chip" id="onlyHi" aria-pressed="false">მხოლოდ მწვანე</button></div>
-      </div>
-    </details>
-    <div class="status" id="count" aria-live="polite"></div>
-  </section>
-
   <div class="layout">
-    <main id="main">
-      <h2 class="sr">ტენდერები</h2>
-      <div class="list" id="list" aria-busy="true">
-        <div class="skel" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
-        <div class="skel" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
-        <p class="note" id="slowNote">ტენდერები იტვირთება…</p>
+    <div class="side">
+  <section class="filters" id="filters" aria-label="ფილტრები">
+      <div class="chips strip" id="catRow" role="group" aria-label="რა სამუშაოს აკეთებ">
+        <button class="chip" id="cat-all">ყველა</button>
+        <button class="chip" id="cat-45200000" title="სამშენებლო სამუშაოები">მშენებლობა</button>
+        <button class="chip" id="cat-45400000" title="რემონტი და მოპირკეთება">რემონტი</button>
+        <button class="chip" id="cat-45100000" title="მიწის და მოსამზადებელი სამუშაოები">მიწის სამუშაო</button>
+        <button class="chip" id="cat-45300000" title="სამონტაჟო სამუშაოები (დენი, წყალი, გათბობა)">დენი, წყალი</button>
+        <button class="chip" id="cat-71300000" title="საინჟინრო მომსახურება">საინჟინრო</button>
+        <button class="chip" id="cat-71200000" title="არქიტექტურა და პროექტირება">პროექტირება</button>
       </div>
-      <button class="btn morebtn" id="moreBtn" hidden></button>
-    </main>
+      <details class="more-f" id="moreF">
+        <summary>მეტი ფილტრი</summary>
+        <div class="fbody">
+          <div class="fgroup wide"><span class="lab" id="valLab">რამდენ ფულზე</span><div class="chips" id="valRow" role="group" aria-labelledby="valLab"></div></div>
+          <div class="fgroup"><label class="lab" for="q">ქალაქი, ორგანიზაცია ან ნომერი</label><input type="search" id="q" placeholder="მაგალითად: ქუთაისი, სკოლა" enterkeyhint="search"></div>
+          <div class="fgroup"><label class="lab" for="sort">როგორ დავალაგო</label>
+            <select id="sort">
+              <option value="radar">ჯერ ის, სადაც ცოტა კონკურენტია</option>
+              <option value="deadline">ჯერ ის, რისი ვადაც მალე მთავრდება</option>
+              <option value="amount">ჯერ ყველაზე ძვირი</option>
+            </select></div>
+          <div class="fgroup"><button class="chip" id="onlyHi" aria-pressed="false">მხოლოდ მწვანე</button></div>
+        </div>
+      </details>
+      <div class="status" id="count" aria-live="polite"></div>
+    </section>
 
     <aside id="info" aria-label="როგორ მუშაობს" hidden>
       <details class="panel" data-wide-open>
@@ -271,6 +277,16 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
         </div>
       </details>
     </aside>
+    </div>
+    <main id="main">
+      <h2 class="sr">ტენდერები</h2>
+      <div class="list" id="list" aria-busy="true">
+        <div class="skel" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
+        <div class="skel" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i></div>
+        <p class="note" id="slowNote">ტენდერები იტვირთება…</p>
+      </div>
+      <button class="btn morebtn" id="moreBtn" hidden></button>
+    </main>
   </div>
 
   <footer id="foot" hidden>
@@ -502,7 +518,7 @@ function head(){
 
 let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),4000); }
 
-if (matchMedia('(min-width:1000px)').matches) document.querySelectorAll('[data-wide-open]').forEach(d=>d.open=true);
+if (matchMedia('(min-width:1000px)').matches) { document.querySelectorAll('[data-wide-open]').forEach(d=>d.open=true); $('moreF').open = true; }
 document.querySelector('a[href="#info"]')?.addEventListener('click', ()=>{ const d=document.querySelector('#info details'); if(d) d.open=true; });
 
 function reveal(){ ['info','foot'].forEach(id=>{ const e=$(id); e.classList.add('late'); e.hidden=false; }); }
