@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ტენდერ რადარი</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@600;800&family=Noto+Sans+Georgian:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* layout: a site-ledger. plain-words intro, filters, then one ruled card per tender written as answers to simple questions */
+:root{
+  --paper:#F4F3EE; --sheet:#FFFFFF; --ink:#17202A; --muted:#5A6470; --line:#DCD8CD;
+  --accent:#1F49C7; --good:#1C7A4C; --warn:#A8701A; --bad:#9A3B2E; --goodbg:#E6F2EA; --warnbg:#F7EEDD; --lowbg:#EEF0F2;
+  --display:"Noto Serif Georgian", "Sylfaen", Georgia, serif; --body:"Noto Sans Georgian", "Sylfaen", system-ui, sans-serif; --mono:"JetBrains Mono", ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#12171D; --sheet:#1A2129; --ink:#E9ECEF; --muted:#9AA4AF; --line:#2C3540;
+  --accent:#7C9BFF; --good:#4FC48A; --warn:#E0A84B; --bad:#E08A7C; --goodbg:#16302A; --warnbg:#33291A; --lowbg:#222A33; color-scheme: dark; } }
+:root[data-theme="dark"]{
+  --paper:#12171D; --sheet:#1A2129; --ink:#E9ECEF; --muted:#9AA4AF; --line:#2C3540;
+  --accent:#7C9BFF; --good:#4FC48A; --warn:#E0A84B; --bad:#E08A7C; --goodbg:#16302A; --warnbg:#33291A; --lowbg:#222A33; color-scheme: dark; }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px;display:grid;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:800;font-size:26px}
+.brand small{font-family:var(--body);font-weight:500;font-size:13px;color:var(--muted);margin-left:8px}
+.stamp{font-size:13px;color:var(--muted)}
+.stamp b{color:var(--ink)}
+.intro{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+.box{background:var(--sheet);border:1px solid var(--line);padding:16px 18px}
+.box h2{font-family:var(--display);font-weight:600;font-size:18px;margin:0 0 8px;text-wrap:balance}
+.box p{margin:0 0 8px;max-width:62ch}
+.steps{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.steps li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--sheet);font-weight:700;font-size:14px}
+.lead{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{background:var(--sheet);border:1px solid var(--line);padding:12px 14px;display:grid;gap:4px}
+.tile .n{font-family:var(--mono);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--muted)}
+.tile.g{border-left:5px solid var(--good)} .tile.g .n{color:var(--good)}
+.controls{background:var(--sheet);border:1px solid var(--line);padding:14px 16px;display:grid;gap:10px}
+.controls h2{font-family:var(--display);font-weight:600;font-size:16px;margin:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row .lab{font-size:13px;color:var(--muted);min-width:150px}
+.chip{font:inherit;font-size:13.5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.chip:focus-visible,select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+select,input[type=search]{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:7px 10px;border-radius:6px}
+input[type=search]{min-width:220px;flex:1}
+.count{font-size:13.5px;color:var(--muted)}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.list{display:grid;gap:12px}
+.card{background:var(--sheet);border:1px solid var(--line);border-left:6px solid var(--muted);padding:16px 18px;display:grid;gap:10px}
+.card.hi{border-left-color:var(--good)} .card.mid{border-left-color:var(--warn)} .card.lo{border-left-color:var(--bad)}
+.top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;color:var(--muted)}
+.pill{display:inline-block;font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:999px}
+.pill.hi{background:var(--goodbg);color:var(--good)} .pill.mid{background:var(--warnbg);color:var(--warn)} .pill.lo{background:var(--lowbg);color:var(--bad)} .pill.na{background:var(--lowbg);color:var(--muted);font-weight:500}
+.what{font-weight:700;font-size:16.5px;line-height:1.4}
+.who{font-size:14px;color:var(--muted)}
+.qa{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.qa div{background:var(--paper);border:1px solid var(--line);padding:8px 10px;display:grid;gap:2px}
+.qa .q{font-size:12.5px;color:var(--muted)}
+.qa .a{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.qa .a.urgent{color:var(--warn)}
+.why{font-size:14.5px}
+.why b{font-weight:700}
+.price{border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:6px}
+.price .t{font-weight:700;font-size:14px}
+.track{position:relative;height:10px;background:var(--lowbg);border-radius:5px;margin:6px 0 2px}
+.track .zone{position:absolute;top:0;bottom:0;left:0;width:80%;background:var(--warnbg);border-radius:5px 0 0 5px}
+.track .tick{position:absolute;top:-4px;width:2px;height:18px;background:var(--ink)}
+.track .exp{position:absolute;top:-3px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--accent);border:2px solid var(--sheet)}
+.price ul{margin:0;padding-left:18px;font-size:14px}
+.price li{margin:2px 0}
+.mono{font-family:var(--mono);font-weight:600}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:7px 12px;border-radius:6px;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn:hover{border-color:var(--ink)}
+.id{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+aside{display:grid;gap:14px;position:sticky;top:12px}
+.panel{background:var(--sheet);border:1px solid var(--line);padding:14px 16px}
+.panel h2{font-family:var(--display);font-weight:600;font-size:16px;margin:0 0 8px}
+.panel p{font-size:13.5px;color:var(--muted);margin:0 0 8px}
+dl.gl{margin:0;display:grid;gap:8px}
+dl.gl dt{font-weight:700;font-size:14px}
+dl.gl dd{margin:0;font-size:13.5px;color:var(--muted)}
+.bt{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}
+.bt th,.bt td{text-align:left;padding:5px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+.bt .n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bt th{font-weight:500;color:var(--muted)}
+.tg{background:#E8EEF6;border-radius:12px;padding:10px}
+.bubble{background:#fff;color:#17202A;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.45;white-space:pre-line}
+.bubble .t{font-family:var(--mono);font-size:10.5px;color:#5A6470;text-align:right;display:block;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13.5px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+.empty,.loading{background:var(--sheet);border:1px dashed var(--line);padding:24px;text-align:center;color:var(--muted)}
+details.more summary{cursor:pointer;color:var(--accent);font-size:14px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+footer a,.box a,.panel a{color:var(--accent)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--sheet);padding:8px 14px;border-radius:8px;font-size:13.5px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (max-width:900px){ .main{grid-template-columns:1fr} aside{position:static} .intro{grid-template-columns:1fr} .lead{grid-template-columns:1fr 1fr} }
+@media (max-width:520px){ .qa{grid-template-columns:1fr} .row .lab{min-width:0;width:100%} }
+@media (prefers-reduced-motion: reduce){ .toast{transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">ტენდერ რადარი<small>მშენებლობა და საინჟინრო სამუშაოები</small></div>
+    <div class="stamp" id="stamp">მონაცემები იტვირთება…</div>
+  </header>
+
+  <section class="intro">
+    <div class="box">
+      <h2>რა არის ეს გვერდი?</h2>
+      <p>სახელმწიფოს, მერიებსა და სკოლებს ხშირად სჭირდებათ, რომ ვინმემ რამე ააშენოს ან შეაკეთოს. მაგალითად, სკოლის სახურავი, სოფლის გზა ან წყალსადენი.</p>
+      <p>ამისთვის ისინი აცხადებენ <b>ტენდერს</b>. ეს ერთგვარი შეჯიბრია: კომპანიები წერენ, რა ფასად გააკეთებენ სამუშაოს. სამუშაოს ჩვეულებრივ ის იღებს, ვინც ყველაზე დაბალ ფასს დაწერს და ყველა საჭირო საბუთს სწორად წარადგენს.</p>
+      <p>ეს გვერდი რეგულარულად აგროვებს ასეთ ტენდერებს <a href="https://tenders.procurement.gov.ge/public/?lang=ge">სახელმწიფო შესყიდვების ოფიციალური საიტიდან</a> და გეუბნება, <b>სად იქნება ნაკლები კონკურენტი</b>. სადაც ცოტა კომპანია მონაწილეობს, იქ მოგება უფრო ადვილია.</p>
+    </div>
+    <div class="box">
+      <h2>როგორ გამოვიყენო? 3 ნაბიჯი</h2>
+      <ol class="steps">
+        <li><span><b>აირჩიე, რას აკეთებ</b> ქვემოთ ღილაკებით. მაგალითად, „სამშენებლო სამუშაოები" ან „რემონტი".</span></li>
+        <li><span><b>ნახე მწვანე ბარათები.</b> მწვანე ნიშნავს, რომ იქ სავარაუდოდ ცოტა კონკურენტი იქნება.</span></li>
+        <li><span><b>დააჭირე „ტენდერის გახსნა"</b>, წაიკითხე პირობები და განაცხადი ოფიციალურ საიტზე შეიტანე, ბოლო ვადამდე.</span></li>
+      </ol>
+      <div class="legend" style="margin-top:12px">
+        <span><i class="dot" style="background:var(--good)"></i>ცოტა კონკურენტი</span>
+        <span><i class="dot" style="background:var(--warn)"></i>საშუალო</span>
+        <span><i class="dot" style="background:var(--bad)"></i>ბევრი კონკურენტი</span>
+        <span><i class="dot" style="background:var(--muted)"></i>ჯერ არ ვიცით</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="lead" aria-label="დღის შეჯამება">
+    <div class="tile"><div class="n" id="tAll">-</div><div class="l">ტენდერი ახლა ღიაა ან მალე გაიხსნება</div></div>
+    <div class="tile g"><div class="n" id="tHi">-</div><div class="l">მათგან სავარაუდოდ ცოტა კონკურენტით (მწვანე)</div></div>
+    <div class="tile"><div class="n" id="tSoon">-</div><div class="l">ბოლო ვადა 3 დღეში მთავრდება</div></div>
+    <div class="tile"><div class="n" id="tSmall">-</div><div class="l">პატარა სამუშაო, 30 000 ლარამდე</div></div>
+  </section>
+
+  <section class="controls" aria-label="ფილტრები">
+    <h2>რა გაინტერესებს?</h2>
+    <div class="row" id="catRow"><span class="lab">რა სამუშაოს აკეთებ</span></div>
+    <div class="row" id="valRow"><span class="lab">რამდენ ფულზე</span></div>
+    <div class="row">
+      <label class="lab" for="q">ქალაქი ან ორგანიზაცია</label>
+      <input type="search" id="q" placeholder="მაგალითად: ქუთაისი, ზუგდიდი, სკოლა">
+    </div>
+    <div class="row">
+      <label class="lab" for="sort">როგორ დავალაგო</label>
+      <select id="sort">
+        <option value="radar">ჯერ ის, სადაც ცოტა კონკურენტია</option>
+        <option value="deadline">ჯერ ის, რისი ვადაც მალე მთავრდება</option>
+        <option value="amount">ჯერ ყველაზე ძვირი</option>
+      </select>
+      <button class="chip" id="onlyHi" aria-pressed="false">აჩვენე მხოლოდ მწვანე</button>
+    </div>
+    <div class="count" id="count"></div>
+  </section>
+
+  <div class="main">
+    <div class="list" id="list"><div class="loading">ტენდერები იტვირთება…</div></div>
+    <aside>
+      <div class="panel">
+        <h2>სიტყვების ლექსიკონი</h2>
+        <dl class="gl">
+          <dt>ტენდერი</dt><dd>შეჯიბრი, სადაც კომპანიები ერთმანეთს ფასით ეჯიბრებიან, რომ სამუშაო მიიღონ.</dd>
+          <dt>ვინ ეძებს (შემსყიდველი)</dt><dd>ორგანიზაცია, რომელიც სამუშაოს უკვეთავს და ფულს იხდის. მაგალითად, მერია ან სამინისტრო.</dd>
+          <dt>დაახლოებით რამდენს იხდიან</dt><dd>რამდენი ეგონა შემსყიდველს, რომ სამუშაო დაჯდება. შენ ამაზე ნაკლები უნდა დაწერო.</dd>
+          <dt>კონკურენტი</dt><dd>სხვა კომპანია, რომელიც იმავე ტენდერში მონაწილეობს.</dd>
+          <dt>ბოლო ვადა</dt><dd>დრო, სანამ განაცხადის შეტანა შეიძლება. ამის შემდეგ დაგვიანებულია.</dd>
+          <dt>გარანტია</dt><dd>ბანკის დაპირება, რომ სამუშაოს ბოლომდე გააკეთებ. თუ ფასს ძალიან დაბლა დაწევ, უფრო დიდი გარანტია მოგთხოვენ.</dd>
+          <dt>80%-ის ზღვარი</dt><dd>თუ შენი ფასი შემსყიდველის თანხის 80%-ზე ნაკლებია, კანონით უფრო დიდი გარანტიაა საჭირო (ბრძანება №90, 2026).</dd>
+        </dl>
+      </div>
+      <div class="panel">
+        <h2>რამდენად ვენდოთ ფერებს?</h2>
+        <p>ფერებს ვამოწმებთ წარსულზე: 2026 წლის პირველი ნახევრით ვისწავლეთ და ივლისის შემდეგ ტენდერებზე შევამოწმეთ. ცხრილში ჩანს, რამდენ ტენდერში იყო ბოლოს მხოლოდ 1 კომპანია:</p>
+        <table class="bt" id="btTable"><thead><tr><th>სამუშაო</th><th class="n">მწვანე</th><th class="n">ყველა</th></tr></thead><tbody></tbody></table>
+        <p>მწვანე არ ნიშნავს გარანტიას, ნიშნავს უფრო დიდ შანსს. სადაც წერია „ჯერ არ ვიცით", იქ ფერი ჯერ არ გამოგვიცდია და ბარათი ნაცრისფერია.</p>
+      </div>
+      <div class="panel">
+        <h2>ასე მოვა დილის შეტყობინება Telegram-ში</h2>
+        <div class="tg"><div class="bubble" id="tgmsg"></div></div>
+        <p style="margin-top:8px" id="tgSoon">Telegram-ის არხი ჯერ მზადდება. როცა გაეშვება, ბმული აქ გამოჩნდება.</p>
+        <a class="chip" id="tgLink" hidden target="_blank" rel="noopener" style="margin-top:10px;text-decoration:none">გამოიწერე Telegram არხი (უფასოა)</a>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    ყველა ციფრი აღებულია <a href="https://tenders.procurement.gov.ge/public/?lang=ge">სახელმწიფო შესყიდვების ოფიციალური საიტიდან</a>. ფერები და ფასები ჩვენი შეფასებაა და არა დაპირება. განაცხადის შეტანამდე ყოველთვის წაიკითხე ტენდერის პირობები ოფიციალურ საიტზე. ბოლო განახლების დრო გვერდის თავშია.
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const SHORT = {'45200000':'სამშენებლო სამუშაოები','45400000':'რემონტი და მოპირკეთება','45100000':'მიწის და მოსამზადებელი სამუშაოები','45300000':'სამონტაჟო სამუშაოები (დენი, წყალი, გათბობა)','71300000':'საინჟინრო მომსახურება','71200000':'არქიტექტურა და პროექტირება'};
+const CAT_ORDER = ['45200000','45400000','45100000','45300000','71300000','71200000'];
+const VALID = new Set(['45200000','45400000','45100000']);
+// tested 06.11.2026: share of tenders with a single bidder among the top 20% radar scores vs all, after 01.07.2026
+const BT = {'45200000':[59,42],'45400000':[49,30],'45100000':[63,41]};
+const MONTHS = ['იანვარი','თებერვალი','მარტი','აპრილი','მაისი','ივნისი','ივლისი','აგვისტო','სექტემბერი','ოქტომბერი','ნოემბერი','დეკემბერი'];
+const LV = {hi:'ცოტა კონკურენტი',mid:'საშუალო კონკურენცია',lo:'ბევრი კონკურენტი',na:'ჯერ არ ვიცით'};
+const bands = [['all','ნებისმიერი',0,Infinity],['s','30 000 ლარამდე',0,30000],['m','30-100 ათასი',30000,100000],['l','100-300 ათასი',100000,300000],['xl','300 ათასზე მეტი',300000,Infinity]];
+let DATA = null, T = [];
+const CHANNEL_URL = 'https://t.me/tender_radar_ge'; // public Telegram channel, e.g. https://t.me/<name>; empty = "coming soon"
+const st = { cats:new Set(CAT_ORDER), band:'all', q:'', sort:'radar', onlyHi:false };
+try { const s = JSON.parse(localStorage.getItem('radar-filters-v2')||'null'); if (s) { st.cats=new Set(s.cats); st.band=s.band; st.sort=s.sort; st.onlyHi=s.onlyHi; } } catch(e) {}
+const save = () => { try { localStorage.setItem('radar-filters-v2', JSON.stringify({cats:[...st.cats],band:st.band,sort:st.sort,onlyHi:st.onlyHi})); } catch(e) {} };
+
+const money = n => Math.round(n).toLocaleString('en-US').replace(/,/g,' ') + ' ₾';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function parseDT(s){ const m = (s||'').match(/(\d\d)\.(\d\d)\.(\d{4})(?:\s+(\d\d):(\d\d))?/); return m ? new Date(+m[3],+m[2]-1,+m[1],+(m[4]||23),+(m[5]||59)) : null; }
+function humanDate(d){ return `${d.getDate()} ${MONTHS[d.getMonth()]}`; }
+function humanDT(d){ return `${humanDate(d)}, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function daysLeft(d){ const a = new Date(); a.setHours(0,0,0,0); const b = new Date(d); b.setHours(0,0,0,0); return Math.round((b-a)/864e5); }
+function lvl(t){ if(!VALID.has(t.c)) return 'na'; return t.sc>=0.55?'hi':t.sc>=0.35?'mid':'lo'; }
+function bidders(t){ return t.nb<=1 ? 'სავარაუდოდ მხოლოდ 1' : t.nb===2 ? 'სავარაუდოდ 2' : `სავარაუდოდ ${t.nb} ან მეტი`; }
+
+function deadlineText(t){
+  const end = parseDT(t.end) || parseDT(t.dl);
+  if (!end) return {txt:'ვადა უცნობია', urgent:false};
+  const d = daysLeft(end);
+  const left = d<0 ? 'ვადა გავიდა' : d===0 ? 'დღეს მთავრდება!' : d===1 ? 'ხვალ მთავრდება' : `${d} დღე დარჩა`;
+  return {txt:`${humanDT(end)} (${left})`, urgent: d<=3, past: d<0};
+}
+
+function whyText(t){
+  const org = esc(DATA.o[t.org]);
+  if (!VALID.has(t.c)) return `ამ ტიპის სამუშაოზე ჩვენი შეფასება წარსულ მონაცემებზე ჯერ ვერ დადასტურდა, ამიტომ ფერს არ ვანიჭებთ.${t.h?` ცნობისთვის: ${org}-მ ბოლო ერთ წელს ${t.h} ასეთი ტენდერი ჩაატარა და <b>${t.hs}</b>-ში მხოლოდ ერთი კომპანია მოვიდა.`:''}`;
+  if (t.h>=3) return `<b>${org}</b> ბოლო ერთ წელს ${t.h} ასეთ ტენდერს ატარებდა. <b>${t.hs}</b>-ში (${Math.round(t.hs/t.h*100)}%) მხოლოდ <b>ერთი კომპანია</b> მოვიდა.` + (lvl(t)==='hi'?' ამიტომ აქ კონკურენტი სავარაუდოდ ცოტა იქნება.':lvl(t)==='lo'?' ეს ნიშნავს, რომ აქ ჩვეულებრივ ბევრი კომპანია ეჯიბრება.':'');
+  if (t.h>0) return `ამ ორგანიზაციას ბოლო ერთ წელს მხოლოდ ${t.h} ასეთი ტენდერი ჰქონდა, ამიტომ შეფასება ძირითადად სამუშაოს ზომას ეყრდნობა: პატარა სამუშაოებზე ჩვეულებრივ ნაკლები კომპანია მოდის.`;
+  return 'ამ ორგანიზაციას ბოლო ერთ წელს ასეთი ტენდერი არ ჩაუტარებია, ამიტომ შეფასება სამუშაოს ზომასა და ტიპს ეყრდნობა.';
+}
+
+function card(t){
+  const L = lvl(t), dl = deadlineText(t), floor = Math.round(t.est*0.8), exp = Math.round(t.est*t.wr);
+  const what = t.desc ? esc(t.desc) : esc(SHORT[t.c]);
+  const startD = parseDT(t.start);
+  const statusLine = t.s===10 && startD && startD > new Date() ? `<span>განაცხადების მიღება დაიწყება: ${humanDT(startD)}</span>` : (t.s===10 ? '<span>განაცხადების მიღება მალე დაიწყება</span>' : '<span>განაცხადებს უკვე იღებენ</span>');
+  const el = document.createElement('article'); el.className = 'card ' + L;
+  el.innerHTML = `
+    <div class="top"><span class="pill ${L}">${LV[L]}</span><span>${esc(SHORT[t.c])}</span>${statusLine}</div>
+    <div>
+      <div class="what">${what}</div>
+      <div class="who">ვინ ეძებს: ${esc(DATA.o[t.org])}</div>
+    </div>
+    <div class="qa">
+      <div><span class="q">დაახლოებით რამდენს იხდიან</span><span class="a">${money(t.est)}</span></div>
+      <div><span class="q">ბოლო ვადა</span><span class="a ${dl.urgent?'urgent':''}">${dl.txt}</span></div>
+      <div><span class="q">რამდენი კონკურენტი იქნება</span><span class="a">${bidders(t)}</span></div>
+    </div>
+    <div class="why"><b>რატომ ვფიქრობთ ასე?</b> ${whyText(t)}</div>
+    <details class="more">
+      <summary>რა ფასი დავწერო? (დაწვრილებით)</summary>
+      <div class="price">
+        <div class="track" aria-hidden="true"><div class="zone"></div><div class="tick" style="left:calc(80% - 1px)"></div><div class="exp" style="left:${Math.min(100,t.wr*100)}%"></div></div>
+        <ul>
+          <li>მსგავს სამუშაოებს ჩვეულებრივ იგებდნენ შემსყიდველის თანხის <b>~${Math.round(t.wr*100)}%</b>-ად. აქ ეს დაახლოებით <span class="mono">${money(exp)}</span> იქნებოდა (ლურჯი წერტილი).</li>
+          <li>თუ <span class="mono">${money(floor)}</span>-ზე (80%) ნაკლებს დაწერ, უფრო დიდი საბანკო გარანტია დაგჭირდება (ყვითელი ზონა).</li>
+          ${t.gar?`<li>მონაწილეობისთვის საჭირო გარანტია: <span class="mono">${money(t.gar)}</span>.</li>`:''}
+          ${t.term?`<li>სამუშაოს შესრულების ვადა: ${esc(t.term)}</li>`:''}
+          <li>ეს არის მიახლოებითი რჩევა. საბოლოო ფასი შენი ხარჯებით გამოთვალე.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="actions">
+      <a class="btn primary" href="https://tenders.procurement.gov.ge/public/?go=${t.app}&lang=ge">ტენდერის გახსნა ოფიციალურ საიტზე</a>
+      <button class="btn" data-copy="${esc(t.reg)}">ნომრის კოპირება</button>
+      <span class="id">ნომერი: ${esc(t.reg)}</span>
+    </div>`;
+  return el;
+}
+
+function chips(){
+  const cr = document.getElementById('catRow');
+  CAT_ORDER.forEach(c=>{ const n = T.filter(t=>t.c===c).length; const b=document.createElement('button'); b.className='chip'; b.id='cat-'+c; b.textContent=`${SHORT[c]} · ${n}`; b.title='კოდი '+c;
+    b.onclick=()=>{ st.cats.has(c)?st.cats.delete(c):st.cats.add(c); if(!st.cats.size) st.cats.add(c); save(); render(); }; cr.appendChild(b); });
+  const vr = document.getElementById('valRow');
+  bands.forEach(([k,l])=>{ const b=document.createElement('button'); b.className='chip'; b.id='band-'+k; b.textContent=l; b.onclick=()=>{ st.band=k; save(); render(); }; vr.appendChild(b); });
+  document.getElementById('q').oninput=e=>{ st.q=e.target.value.trim().toLowerCase(); render(); };
+  const so=document.getElementById('sort'); so.value=st.sort; so.onchange=e=>{ st.sort=e.target.value; save(); render(); };
+  document.getElementById('onlyHi').onclick=()=>{ st.onlyHi=!st.onlyHi; save(); render(); };
+}
+
+function render(){
+  CAT_ORDER.forEach(c=>document.getElementById('cat-'+c).setAttribute('aria-pressed', st.cats.has(c)));
+  bands.forEach(([k])=>document.getElementById('band-'+k).setAttribute('aria-pressed', st.band===k));
+  document.getElementById('onlyHi').setAttribute('aria-pressed', st.onlyHi);
+  const [,,lo,hi] = bands.find(b=>b[0]===st.band);
+  let L = T.filter(t=>st.cats.has(t.c) && t.est>=lo && t.est<hi && (!st.onlyHi||lvl(t)==='hi') && (!st.q || (DATA.o[t.org]+' '+t.desc+' '+t.reg).toLowerCase().includes(st.q)));
+  const endT = t => (parseDT(t.end)||parseDT(t.dl)||new Date(2100,0)).getTime();
+  const key = {radar:t=>(VALID.has(t.c)?0:1e13)+(t.s===20?0:1e12)-t.sc*1e9, deadline:t=>endT(t), amount:t=>-t.est};
+  L.sort((a,b)=>key[st.sort](a)-key[st.sort](b));
+  const list=document.getElementById('list'); list.replaceChildren();
+  L.slice(0,60).forEach(t=>list.appendChild(card(t)));
+  if(!L.length){ const e=document.createElement('div'); e.className='empty'; e.textContent='ასეთი ტენდერი ახლა არ არის. სცადე სხვა სამუშაო, სხვა თანხა ან ცარიელი ძებნა.'; list.appendChild(e); }
+  document.getElementById('count').textContent = L.length>60 ? `ნაპოვნია ${L.length} ტენდერი. ნაჩვენებია პირველი 60, დანარჩენის სანახავად ფილტრი დააზუსტე.` : `ნაპოვნია ${L.length} ტენდერი.`;
+  list.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{ try{ await navigator.clipboard.writeText(b.dataset.copy); toast('ნომერი დაკოპირდა: '+b.dataset.copy); }catch(e){ toast('ვერ დავაკოპირე. ნომერი: '+b.dataset.copy); } });
+}
+
+function head(){
+  const up = new Date(DATA.updated);
+  document.getElementById('stamp').innerHTML = `ბოლოს განახლდა: <b>${humanDT(up)}</b>`;
+  document.getElementById('tAll').textContent = T.length;
+  document.getElementById('tHi').textContent = T.filter(t=>lvl(t)==='hi').length;
+  document.getElementById('tSoon').textContent = T.filter(t=>{ const e=parseDT(t.end)||parseDT(t.dl); if(!e) return false; const d=daysLeft(e); return d>=0&&d<=3; }).length;
+  document.getElementById('tSmall').textContent = T.filter(t=>t.est<30000).length;
+  const tb=document.querySelector('#btTable tbody');
+  CAT_ORDER.forEach(c=>{ const tr=document.createElement('tr'); tr.innerHTML = BT[c] ? `<td>${SHORT[c]}</td><td class="n" style="color:var(--good);font-weight:700">${BT[c][0]}%</td><td class="n">${BT[c][1]}%</td>` : `<td>${SHORT[c]}</td><td class="n" colspan="2">ჯერ არ ვიცით</td>`; tb.appendChild(tr); });
+  const top = T.filter(t=>t.s===20 && lvl(t)==='hi').sort((a,b)=>b.sc-a.sc).slice(0,5);
+  const lines = top.map((t,i)=>{ const e=parseDT(t.end)||parseDT(t.dl); const w=(t.desc||SHORT[t.c]); return `${i+1}. ${w.length>60?w.slice(0,58)+'…':w}\n   ${money(t.est)} · ვადა ${e?humanDate(e):'-'}`; });
+  document.getElementById('tgmsg').innerHTML = esc(`ტენდერ რადარი · ${humanDate(up)}\nდღეს ${T.length} ტენდერი შენს სამუშაოებზე. სადაც ცოტა კონკურენტია:\n\n${lines.join('\n')}\n\nსრული სია: ბმული`) + '<span class="t">09:00</span>';
+}
+
+let tt; function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),2400); }
+
+(async function boot(){
+  try {
+    const r = await fetch('data.json', {cache:'no-store'});
+    if (!r.ok) throw new Error(r.status);
+    DATA = await r.json();
+  } catch(e) {
+    document.getElementById('list').innerHTML = '<div class="empty">მონაცემები ვერ ჩაიტვირთა. სცადე გვერდის განახლება რამდენიმე წამში.</div>';
+    document.getElementById('stamp').textContent = 'მონაცემები ვერ ჩაიტვირთა';
+    return;
+  }
+  // household repair tenders name the resident: keep only the town, drop name and street address
+  DATA.t.forEach(t=>{ let d=t.desc||''; if(d.includes('მცხოვრებ')&&d.includes('საცხოვრებელ')){ const i=d.indexOf('საცხოვრებელ'); t.desc=(d.slice(0,i).split(',')[0].split('მცხოვრებ')[0].trim()+' '+d.slice(i)).trim(); } });
+  if (CHANNEL_URL) { const a=document.getElementById('tgLink'); a.href=CHANNEL_URL; a.hidden=false; document.getElementById('tgSoon').hidden=true; }
+  // hide tenders whose deadline already passed
+  const nowT = Date.now();
+  T = DATA.t.filter(t=>{ const e=parseDT(t.end)||parseDT(t.dl); return !e || e.getTime()>nowT; });
+  head(); chips(); render();
+})();
+</script>
+</body>
+</html>
