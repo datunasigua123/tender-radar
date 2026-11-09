@@ -139,6 +139,7 @@ main{display:grid;gap:14px}
 .org{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .more{grid-column:1;justify-self:start;margin-left:calc(var(--s3) * -1)}
 @media (max-width:400px){ .card .btn-primary{padding-inline:10px;gap:6px} }
+@media (min-width:900px) and (max-width:1239px){ .card .btn-primary{padding-inline:10px;gap:6px} .list .card{row-gap:10px} }
 .card .sharebtn{grid-column:2;justify-self:end}
 .more .ic{transition:transform .12s ease}
 .more[aria-expanded="true"] .ic{transform:rotate(180deg)}
@@ -211,11 +212,20 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
 .filters{order:1} main{order:2} aside{order:3}
 @media (min-width:900px){
   :root{--fs-hero:30px;--fs-price:29px}
-  .wrap{max-width:752px;padding-top:var(--s6);gap:var(--s6)}
+  .wrap{max-width:1120px;padding-left:24px;padding-right:24px;padding-top:var(--s6);gap:var(--s6)}
   .topbar{min-height:72px} .logo{width:44px;height:44px}
-  .hero{padding:28px var(--s8);border-radius:var(--r-hero);gap:var(--s3)}
-  .chips.strip{margin:0;padding-left:0;scrollbar-width:thin}
-  .fbody{grid-template-columns:repeat(3,minmax(0,1fr));align-items:end}
+  .hero{padding:28px var(--s8);border-radius:var(--r-hero);column-gap:var(--s8);row-gap:var(--s3);grid-template-columns:minmax(0,1fr) auto;align-items:start}
+  .hero>*{grid-column:1}
+  .hero>.tglink,.hero>.stamp{grid-column:2;justify-self:end}
+  .hero>.tglink{grid-row:2;margin-left:0}
+  .hero>.stamp{grid-row:3;text-align:right}
+  .hero>.stale{grid-column:1/-1;justify-self:stretch}
+  .chips.strip{flex-wrap:wrap;overflow:visible;margin:0;padding:2px 0;-webkit-mask-image:none;mask-image:none;scroll-snap-type:none}
+  .fbody{grid-template-columns:repeat(4,minmax(0,1fr));align-items:end}
+  .fgroup.q{grid-column:span 2}
+  .list{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+  .list>.first,.list>.empty,.list>.err,.list>.note,.list>.skel:only-child{grid-column:1/-1}
+  aside{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
 }
 </style>
 </head>
@@ -254,7 +264,7 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
         <button type="button" class="more-f-btn" id="moreFBtn" aria-expanded="false" aria-controls="moreBody"><span>დამატებითი ფილტრები</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-chev"/></svg></button>
         <div class="fbody" id="moreBody" hidden>
           <div class="fgroup wide"><span class="lab" id="valLab">რამდენ ფულზე</span><div class="chips" id="valRow" role="group" aria-labelledby="valLab"></div></div>
-          <div class="fgroup"><label class="lab" for="q">ქალაქი, ორგანიზაცია ან ნომერი</label><input type="search" id="q" placeholder="მაგალითად: ქუთაისი, სკოლა" enterkeyhint="search"></div>
+          <div class="fgroup q"><label class="lab" for="q">ქალაქი, ორგანიზაცია ან ნომერი</label><input type="search" id="q" placeholder="მაგალითად: ქუთაისი, სკოლა" enterkeyhint="search"></div>
           <div class="fgroup"><label class="lab" for="sort">როგორ დავალაგო</label>
             <select id="sort">
               <option value="radar">ჯერ ის, სადაც ცოტა კონკურენტია</option>
