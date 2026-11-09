@@ -370,9 +370,18 @@ function clearFilters(){ st.cat='all'; st.band='all'; st.q=''; st.onlyHi=false; 
 async function onListClick(e){
   const o = e.target.closest('[data-open]');
   // copy the number so it can be pasted into the portal search; navigation continues as normal
-  if (o) { try { navigator.clipboard && navigator.clipboard.writeText(o.dataset.open); } catch(_) {} return; }
+  if (o) { copyText(o.dataset.open).then(ok=>toast(ok ? 'ნომერი დაკოპირდა: ' + o.dataset.open : 'ტენდერის ნომერი: ' + o.dataset.open)); return; }
   const s = e.target.closest('[data-share]'); if (s) return share(s.dataset.share);
   const c = e.target.closest('[data-act="clear"]'); if (c) return clearFilters();
+}
+
+async function copyText(txt){
+  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(txt); return true; } } catch(_) {}
+  try {
+    const a=document.createElement('textarea'); a.value=txt; a.setAttribute('readonly',''); a.style.cssText='position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(a); a.focus(); a.select(); a.setSelectionRange(0,txt.length);
+    const ok=document.execCommand('copy'); a.remove(); return ok;
+  } catch(_) { return false; }
 }
 
 async function share(reg){
@@ -380,7 +389,8 @@ async function share(reg){
   const url = location.origin + location.pathname + '#' + encodeURIComponent(reg);
   const text = `${t.desc || SHORT[t.c]}\n${DATA.o[t.org]}\nიხდიან ${money(t.est)}`;
   if (navigator.share) { try { await navigator.share({title:'ტენდერ რადარი', text, url}); } catch(_) {} return; }
-  try { await navigator.clipboard.writeText(text + '\n' + url); toast('ბმული დაკოპირდა, ჩასვი Viber-ში ან Telegram-ში'); } catch(_) { toast('ბმული: ' + url); }
+  const ok = await copyText(text + '\n' + url);
+  toast(ok ? 'ბმული დაკოპირდა, ჩასვი Viber-ში ან Telegram-ში' : 'ბმული: ' + url);
 }
 
 function activeLabels(){
@@ -443,7 +453,7 @@ function head(){
   $('tgmsg').innerHTML = esc(`ტენდერ რადარი · ${humanDate(up)}\nდღეს ${T.length} ტენდერი შენს სამუშაოებზე. სადაც ცოტა კონკურენტია:\n\n${lines.join('\n')}\n\nსრული სია: ბმული`) + '<span class="t">09:00</span>';
 }
 
-let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),2600); }
+let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),4000); }
 
 if (matchMedia('(min-width:1000px)').matches) document.querySelectorAll('[data-wide-open]').forEach(d=>d.open=true);
 document.querySelector('a[href="#info"]')?.addEventListener('click', ()=>{ const d=document.querySelector('#info details'); if(d) d.open=true; });
