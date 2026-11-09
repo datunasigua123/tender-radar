@@ -26,6 +26,10 @@
   --good:var(--success); --warn:var(--warning); --bad:var(--danger); --goodbg:var(--success-soft); --warnbg:var(--warning-soft); --lowbg:var(--danger-soft); --nabg:var(--unknown-soft); --skel:var(--surface-secondary);
   --gs-hi:var(--success); --gs-mid:var(--warning); --gs-lo:var(--danger); --gs-na:var(--unknown);
   --hero1:var(--surface-secondary); --hero2:var(--surface); --ring:rgba(23,40,32,.06);
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px; --s14:56px;
+  --fs-hero:25px; --fs-hero-desc:17px; --fs-section:21px; --fs-price:27px; --fs-title:19px; --fs-body:16px;
+  --lh-heading:1.25; --lh-body:1.5; --lh-meta:1.4;
+  --r-sm:8px; --r-btn:10px; --r-chip:999px; --r-card:14px; --r-hero:18px; --r-section:20px;
   --r:14px; --r2:10px; --sh1:var(--shadow-card); --sh2:var(--shadow-hover);
   --body:"FiraGO", "Noto Sans Georgian", "Segoe UI", "BPG Arial", "Sylfaen", Arial, sans-serif;
 }
@@ -52,8 +56,8 @@
 *{box-sizing:border-box}
 [hidden]{display:none !important}
 html,body{margin:0}
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
-.wrap{max-width:1120px;margin:0 auto;padding:12px 16px 40px;display:grid;gap:12px}
+body{background:var(--bg);color:var(--text-primary);font-family:var(--body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:400;-webkit-text-size-adjust:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:var(--s3) var(--s4) var(--s10);display:grid;gap:var(--s4)}
 a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 header.hero{position:relative;overflow:hidden;display:grid;gap:6px;padding:14px 16px;border-radius:20px;background:linear-gradient(160deg,var(--hero1),var(--hero2) 70%);box-shadow:var(--sh1)}
@@ -61,8 +65,10 @@ header.hero::before{content:"";position:absolute;right:-70px;top:-70px;width:260
 header.hero>*{position:relative}
 .brand{display:flex;align-items:center;gap:12px}
 .logo{width:40px;height:40px;flex:none;filter:drop-shadow(0 2px 4px rgba(27,67,184,.3))}
-h1{font-size:26px;line-height:1.15;margin:0;font-weight:700;letter-spacing:-.01em}
-.lede{margin:0;font-size:16px;line-height:1.45;font-weight:700}
+h1{font-size:var(--fs-hero);line-height:var(--lh-heading);margin:0;font-weight:700}
+h2,h3{line-height:var(--lh-heading);margin:0}
+.mono,.money .v,.good b{font-variant-numeric:tabular-nums}
+.lede{margin:0;font-size:var(--fs-hero-desc);line-height:var(--lh-body);font-weight:600}
 .good{margin:0;display:flex;align-items:center;gap:8px;font-size:16px;line-height:1.3;color:var(--ink)}
 .good b{color:var(--good);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;min-width:2ch}
 .d{width:14px;height:14px;border-radius:50%;background:var(--gs-hi);flex:none;display:inline-block}
@@ -188,14 +194,15 @@ footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);paddin
   .toast{transition:opacity .2s}
 }
 @media (min-width:700px){ .fbody{grid-template-columns:1fr 1fr} .fgroup.wide{grid-column:1/-1} .first .f3 li{grid-template-columns:auto 1fr;text-align:left;justify-items:start;align-items:center;gap:10px} }
-.layout{display:grid;gap:12px}
+.layout{display:grid;gap:var(--s4)}
 .side{display:contents}
 .filters{order:1} main{order:2} aside{order:3}
 @media (min-width:1000px){
-  .wrap{padding-top:24px;gap:24px}
+  :root{--fs-hero:30px;--fs-price:29px}
+  .wrap{padding-top:var(--s6);gap:var(--s6)}
   header.hero{padding:28px 32px;border-radius:28px;gap:10px}
   header.hero::before{right:-40px;top:-90px;width:380px;height:380px}
-  .logo{width:48px;height:48px} h1{font-size:34px} .lede{font-size:20px;max-width:640px}
+  .logo{width:48px;height:48px} .lede{max-width:640px}
   .layout{grid-template-columns:300px minmax(0,720px);justify-content:center;gap:32px;align-items:start}
   .side{display:grid;gap:16px;align-content:start;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;grid-column:1;grid-row:1;padding:2px;scrollbar-width:thin}
   .side>*{order:0} main{grid-column:2;grid-row:1}
