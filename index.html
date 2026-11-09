@@ -143,7 +143,15 @@ footer{font-size:14px;color:var(--muted);border-top:1px solid var(--line);paddin
   </header>
 
   <section class="filters" id="filters" aria-label="ფილტრები">
-    <div class="chips" id="catRow" role="group" aria-label="რა სამუშაოს აკეთებ"></div>
+    <div class="chips" id="catRow" role="group" aria-label="რა სამუშაოს აკეთებ">
+      <button class="chip" id="cat-all">ყველა <span class="n"></span></button>
+      <button class="chip" id="cat-45200000" title="სამშენებლო სამუშაოები">მშენებლობა <span class="n"></span></button>
+      <button class="chip" id="cat-45400000" title="რემონტი და მოპირკეთება">რემონტი <span class="n"></span></button>
+      <button class="chip" id="cat-45100000" title="მიწის და მოსამზადებელი სამუშაოები">მიწის სამუშაო <span class="n"></span></button>
+      <button class="chip" id="cat-45300000" title="სამონტაჟო სამუშაოები (დენი, წყალი, გათბობა)">დენი, წყალი, გათბობა <span class="n"></span></button>
+      <button class="chip" id="cat-71300000" title="საინჟინრო მომსახურება">საინჟინრო <span class="n"></span></button>
+      <button class="chip" id="cat-71200000" title="არქიტექტურა და პროექტირება">პროექტირება <span class="n"></span></button>
+    </div>
     <details class="more-f" id="moreF">
       <summary>მეტი ფილტრი <span class="note">თანხა, ქალაქი</span></summary>
       <div class="fbody">
@@ -342,11 +350,8 @@ function card(t, pinned){
 }
 
 function chips(){
-  const cr = $('catRow');
-  // built before the data arrives so nothing jumps when it does; counts are filled in by chipCounts()
-  [['all','ყველა'], ...CAT_ORDER.map(c=>[c,CHIP[c]])].forEach(([c,l])=>{
-    const b=document.createElement('button'); b.className='chip'; b.id='cat-'+c; b.innerHTML=`${esc(l)} <span class="n"></span>`; if(c!=='all') b.title=SHORT[c];
-    b.onclick=()=>{ st.cat=c; shown=PAGE; save(); render(); }; cr.appendChild(b); });
+  // the work-type buttons are in the HTML so they are painted before this script runs; counts come from chipCounts()
+  ['all',...CAT_ORDER].forEach(c=>{ $('cat-'+c).onclick=()=>{ st.cat=c; shown=PAGE; save(); render(); }; });
   const vr = $('valRow');
   bands.forEach(([k,l])=>{ const b=document.createElement('button'); b.className='chip'; b.id='band-'+k; b.textContent=l; b.onclick=()=>{ st.band=k; shown=PAGE; save(); render(); }; vr.appendChild(b); });
   $('q').oninput=e=>{ st.q=e.target.value.trim().toLowerCase(); shown=PAGE; render(); };
